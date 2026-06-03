@@ -1,0 +1,3183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Francis Jan Reyes — AI Automation & Technology Architecture</title>
+<meta name="description" content="Technology Architect specializing in AI automation, cloud workflows, and systems integration. Building reliable automation that reduces manual effort and improves response time." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Onest:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #0B0A09;
+    --bg-elevated: #14120F;
+    --surface: #1A1814;
+    --border: rgba(245, 240, 230, 0.07);
+    --border-strong: rgba(245, 240, 230, 0.16);
+    --text: #F5F0E6;
+    --text-muted: #908B81;
+    --text-faint: #5A554C;
+    --accent: #F5B83D;
+    --accent-warm: #FF8C42;
+    --accent-dim: #A87E26;
+    --neon-violet: #C77DFF;
+    --neon-cyan: #4ECDC4;
+    --online: #22C55E;
+    --grid: rgba(245, 240, 230, 0.022);
+    --font-display: 'Instrument Serif', Georgia, serif;
+    --font-sans: 'Onest', system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-weight: 400;
+    line-height: 1.55;
+    overflow-x: hidden;
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 48px 48px;
+    background-position: -1px -1px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  /* Subtle vignette for depth */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(ellipse at top, transparent 0%, transparent 50%, rgba(0,0,0,0.5) 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  ::selection { background: var(--accent); color: var(--bg); }
+  img { max-width: 100%; height: auto; display: block; }
+  a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  /* Layout */
+  .container { max-width: 1240px; margin: 0 auto; padding: 0 32px; position: relative; z-index: 1; }
+  @media (max-width: 900px) { .container { padding: 0 24px; } }
+  @media (max-width: 480px) { .container { padding: 0 18px; } }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(11, 10, 9, 0.78);
+    backdrop-filter: blur(24px) saturate(140%);
+    -webkit-backdrop-filter: blur(24px) saturate(140%);
+    border-bottom: 1px solid var(--border);
+  }
+  nav .container {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-top: 14px; padding-bottom: 14px;
+  }
+  .brand {
+    display: flex; align-items: center; gap: 12px;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+  .brand:hover { opacity: 0.85; }
+
+  .brand-avatar {
+    position: relative;
+    width: 36px; height: 36px;
+    flex-shrink: 0;
+  }
+  .brand-avatar img {
+    width: 100%; height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1.5px solid var(--border-strong);
+  }
+  .online-badge {
+    position: absolute;
+    bottom: -1px; right: -1px;
+    width: 11px; height: 11px;
+    border-radius: 50%;
+    background: var(--online);
+    border: 2px solid var(--bg);
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.5);
+    animation: online-pulse 2s ease-out infinite;
+  }
+  @keyframes online-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.55); }
+    100% { box-shadow: 0 0 0 8px rgba(34, 197, 94, 0); }
+  }
+
+  .brand-text {
+    display: flex; flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+  .brand-name {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text);
+    letter-spacing: 0.04em;
+    line-height: 1;
+  }
+  .brand-status {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    color: var(--online);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+  @media (max-width: 480px) {
+    .brand-text { display: none; }
+  }
+
+  .nav-links { display: flex; gap: 4px; align-items: center; }
+  .nav-links a {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-muted);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    padding: 8px 14px;
+    border-radius: 6px;
+    transition: color 0.2s, background 0.2s;
+    position: relative;
+  }
+  .nav-links a:hover {
+    color: var(--text);
+    background: rgba(245, 240, 230, 0.04);
+  }
+  .nav-links a.active {
+    color: var(--accent);
+  }
+  .nav-links a.cta {
+    color: var(--accent);
+    border: 1px solid var(--accent-dim);
+    padding: 8px 16px;
+    margin-left: 6px;
+    background: rgba(245, 184, 61, 0.04);
+    transition: all 0.2s;
+  }
+  .nav-links a.cta:hover {
+    background: var(--accent);
+    color: var(--bg);
+    border-color: var(--accent);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px -4px rgba(245, 184, 61, 0.4);
+  }
+
+  .menu-toggle {
+    display: none;
+    background: transparent;
+    border: 1px solid var(--border-strong);
+    width: 38px; height: 38px;
+    border-radius: 8px;
+    cursor: pointer;
+    align-items: center; justify-content: center;
+    transition: border-color 0.2s;
+  }
+  .menu-toggle:hover { border-color: var(--accent); }
+  .menu-toggle span {
+    display: block;
+    width: 16px; height: 1.5px;
+    background: var(--text);
+    position: relative;
+    transition: all 0.25s ease;
+  }
+  .menu-toggle span::before,
+  .menu-toggle span::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 16px; height: 1.5px;
+    background: var(--text);
+    transition: all 0.25s ease;
+  }
+  .menu-toggle span::before { top: -5px; }
+  .menu-toggle span::after { top: 5px; }
+  .menu-toggle.open span { background: transparent; }
+  .menu-toggle.open span::before { top: 0; transform: rotate(45deg); }
+  .menu-toggle.open span::after { top: 0; transform: rotate(-45deg); }
+
+  @media (max-width: 720px) {
+    .menu-toggle { display: flex; }
+    .nav-links {
+      position: fixed;
+      top: 66px; left: 0; right: 0;
+      background: rgba(11, 10, 9, 0.97);
+      backdrop-filter: blur(20px);
+      flex-direction: column;
+      gap: 0;
+      padding: 16px 24px 24px;
+      border-bottom: 1px solid var(--border);
+      transform: translateY(-110%);
+      transition: transform 0.3s ease;
+      align-items: stretch;
+    }
+    .nav-links.open { transform: translateY(0); }
+    .nav-links a {
+      font-size: 14px;
+      padding: 14px;
+      border-bottom: 1px solid var(--border);
+      border-radius: 0;
+    }
+  }
+
+  /* SECTIONS */
+  section { padding: 120px 0; position: relative; }
+  @media (max-width: 900px) { section { padding: 96px 0; } }
+  @media (max-width: 600px) { section { padding: 72px 0; } }
+
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-faint);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section-label::before {
+    content: '';
+    width: 28px; height: 1px;
+    background: var(--text-faint);
+  }
+  .section-num { color: var(--accent); }
+
+  /* HERO */
+  .hero {
+    padding-top: 140px; padding-bottom: 80px;
+    min-height: 100vh;
+    display: flex; align-items: center;
+  }
+  @media (max-width: 600px) { .hero { padding-top: 120px; padding-bottom: 60px; min-height: auto; } }
+
+  .hero-top {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 80px;
+    align-items: center;
+    margin-bottom: 64px;
+  }
+  @media (max-width: 1024px) { .hero-top { gap: 56px; } }
+  @media (max-width: 900px) {
+    .hero-top {
+      grid-template-columns: 1fr;
+      gap: 48px;
+      justify-items: center;
+      text-align: center;
+    }
+    .hero-tag { justify-content: center; }
+    .hero-sub { margin-left: auto; margin-right: auto; }
+    .hero-actions { justify-content: center; }
+  }
+
+  /* Neon Orb Portrait */
+  .portrait-orb {
+    position: relative;
+    width: clamp(240px, 28vw, 340px);
+    aspect-ratio: 1;
+    flex-shrink: 0;
+  }
+  .portrait-glow {
+    position: absolute;
+    inset: -50px;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at 30% 30%, rgba(245, 184, 61, 0.35) 0%, transparent 50%),
+      radial-gradient(circle at 70% 70%, rgba(199, 125, 255, 0.22) 0%, transparent 55%),
+      radial-gradient(circle at 50% 50%, rgba(78, 205, 196, 0.1) 0%, transparent 60%);
+    filter: blur(24px);
+    animation: glow-pulse 5s ease-in-out infinite;
+    pointer-events: none;
+  }
+  .portrait-ring {
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    background: conic-gradient(
+      from 0deg,
+      transparent 0deg,
+      var(--accent) 60deg,
+      transparent 120deg,
+      var(--neon-violet) 200deg,
+      transparent 260deg,
+      var(--accent) 340deg,
+      transparent 360deg
+    );
+    animation: rotate 14s linear infinite;
+    z-index: 1;
+    opacity: 0.85;
+  }
+  .portrait-ring-inner {
+    position: absolute;
+    inset: -1px;
+    border-radius: 50%;
+    background: var(--bg);
+    z-index: 2;
+  }
+  .portrait-circle {
+    position: absolute;
+    inset: 6px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: var(--bg-elevated);
+    z-index: 3;
+    box-shadow:
+      0 0 0 1px rgba(245, 184, 61, 0.25),
+      inset 0 0 60px rgba(245, 184, 61, 0.06);
+  }
+  .portrait-circle img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: saturate(0.95) contrast(1.05);
+    transition: filter 0.4s ease, transform 0.6s ease;
+  }
+  .portrait-orb:hover .portrait-circle img {
+    filter: saturate(1.05) contrast(1.05);
+    transform: scale(1.04);
+  }
+  /* Decorative orbital marker */
+  .orbit-marker {
+    position: absolute;
+    top: 8%; right: 4%;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 12px var(--accent), 0 0 24px var(--accent);
+    z-index: 4;
+    animation: orbit-blink 2.5s ease-in-out infinite;
+  }
+  @keyframes rotate { to { transform: rotate(360deg); } }
+  @keyframes glow-pulse {
+    0%, 100% { opacity: 0.7; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.06); }
+  }
+  @keyframes orbit-blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .hero-text { min-width: 0; }
+  .hero-tag {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    display: flex; align-items: center; gap: 12px;
+    flex-wrap: wrap;
+  }
+  .hero-tag::before {
+    content: '';
+    width: 32px; height: 1px;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+  .hero h1 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(44px, 7.5vw, 104px);
+    line-height: 0.96;
+    letter-spacing: -0.02em;
+    margin-bottom: 28px;
+  }
+  .hero h1 .italic { font-style: italic; color: var(--accent); }
+
+  .hero-sub {
+    font-size: clamp(15px, 1.35vw, 18px);
+    color: var(--text-muted);
+    max-width: 540px;
+    line-height: 1.65;
+    margin-bottom: 36px;
+  }
+  .hero-sub strong { color: var(--text); font-weight: 500; }
+
+  .hero-actions {
+    display: flex; gap: 14px; flex-wrap: wrap;
+  }
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 13px 22px;
+    border-radius: 999px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    border: 1px solid var(--border-strong);
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: var(--bg);
+    border-color: var(--accent);
+    box-shadow: 0 0 0 0 rgba(245, 184, 61, 0.4);
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px -8px rgba(245, 184, 61, 0.5);
+  }
+  .btn-ghost {
+    background: transparent;
+    color: var(--text);
+  }
+  .btn-ghost:hover {
+    background: rgba(245, 240, 230, 0.04);
+    border-color: var(--text-muted);
+  }
+  .btn .arrow {
+    display: inline-block;
+    transition: transform 0.25s ease;
+  }
+  .btn:hover .arrow { transform: translateX(3px); }
+
+  /* META GRID */
+  .meta-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  @media (max-width: 720px) { .meta-grid { grid-template-columns: repeat(2, 1fr); } }
+  .meta-item {
+    background: var(--bg);
+    padding: 22px 24px;
+    display: flex; flex-direction: column; gap: 8px;
+    min-width: 0;
+    transition: background 0.3s;
+  }
+  .meta-item:hover { background: var(--bg-elevated); }
+  .meta-key {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-faint);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .meta-val {
+    font-size: 15px;
+    color: var(--text);
+    font-weight: 500;
+    word-wrap: break-word;
+  }
+  .meta-val.status {
+    color: var(--online);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .meta-val.status::before {
+    content: '';
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--online);
+    box-shadow: 0 0 10px var(--online);
+    flex-shrink: 0;
+  }
+
+  /* ABOUT */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.7fr;
+    gap: 80px;
+    align-items: start;
+  }
+  @media (max-width: 900px) { .about-grid { grid-template-columns: 1fr; gap: 32px; } }
+  .about-heading {
+    font-family: var(--font-display);
+    font-size: clamp(30px, 4.5vw, 56px);
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+  }
+  .about-heading em { font-style: italic; color: var(--accent); }
+  .about-body {
+    font-size: clamp(15px, 1.3vw, 17px);
+    color: var(--text-muted);
+    line-height: 1.75;
+  }
+  .about-body p { margin-bottom: 22px; }
+  .about-body p:last-child { margin-bottom: 0; }
+  .about-body strong { color: var(--text); font-weight: 500; }
+
+  /* PROJECTS */
+  .projects-list { display: flex; flex-direction: column; gap: 0; }
+  .project {
+    border-top: 1px solid var(--border);
+    padding: 64px 0;
+    display: grid;
+    grid-template-columns: 64px 1.1fr 1fr;
+    gap: 32px;
+    align-items: start;
+    transition: background 0.4s ease;
+    position: relative;
+  }
+  .project:last-child { border-bottom: 1px solid var(--border); }
+  .project::before {
+    content: '';
+    position: absolute;
+    top: -1px; left: 0;
+    width: 0; height: 1px;
+    background: var(--accent);
+    transition: width 0.6s ease;
+  }
+  .project:hover::before { width: 100%; }
+  .project:hover { background: rgba(245, 184, 61, 0.018); }
+  @media (max-width: 1024px) { .project { grid-template-columns: 48px 1fr 1fr; gap: 24px; } }
+  @media (max-width: 768px) { .project { grid-template-columns: 1fr; gap: 24px; padding: 48px 0; } }
+
+  .project-num {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 0.04em;
+    padding-top: 6px;
+  }
+  .project-main { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+  .project-title {
+    font-family: var(--font-display);
+    font-size: clamp(24px, 3vw, 38px);
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+  }
+  .project-title em { font-style: italic; color: var(--accent); }
+  .project-summary {
+    color: var(--text-muted);
+    font-size: 15px;
+    line-height: 1.65;
+    max-width: 520px;
+  }
+  .project-stack { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-muted);
+    padding: 5px 11px;
+    border: 1px solid var(--border-strong);
+    border-radius: 999px;
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+  .tag:hover { color: var(--accent); border-color: var(--accent-dim); }
+
+  .project-details { display: flex; flex-direction: column; gap: 18px; padding-top: 8px; min-width: 0; }
+  .detail { display: grid; grid-template-columns: 90px 1fr; gap: 16px; font-size: 14px; line-height: 1.6; }
+  @media (max-width: 520px) { .detail { grid-template-columns: 1fr; gap: 4px; } }
+  .detail-key {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-faint);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding-top: 3px;
+  }
+  .detail-val { color: var(--text); }
+  .detail-val.outcome { color: var(--accent); }
+
+  /* Flow */
+  .flow { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-top: 4px; }
+  .flow-node {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    padding: 5px 10px;
+    border: 1px solid var(--border-strong);
+    background: var(--bg-elevated);
+    color: var(--text);
+    border-radius: 5px;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+  }
+  .flow-node.accent {
+    border-color: var(--accent-dim);
+    color: var(--accent);
+    background: rgba(245, 184, 61, 0.04);
+  }
+  .flow-arrow { font-family: var(--font-mono); color: var(--text-faint); font-size: 11px; }
+
+  .sub-divider {
+    margin: 56px 0 32px;
+    padding-top: 40px;
+    border-top: 1px solid var(--border);
+    display: flex; align-items: center; gap: 12px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-faint);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .sub-divider .accent { color: var(--accent); }
+  .sub-divider .note {
+    color: var(--text-muted);
+    font-size: 11px;
+    margin-left: auto;
+    text-transform: none;
+    letter-spacing: 0.04em;
+    font-style: italic;
+  }
+  @media (max-width: 600px) {
+    .sub-divider { flex-wrap: wrap; gap: 8px; }
+    .sub-divider .note { margin-left: 0; width: 100%; }
+  }
+
+  /* CAPABILITIES */
+  .cap-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .cap-card {
+    background: var(--bg);
+    padding: 32px 28px;
+    transition: background 0.3s;
+  }
+  @media (max-width: 480px) { .cap-card { padding: 24px 22px; } }
+  .cap-card:hover { background: var(--bg-elevated); }
+  .cap-category {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .cap-category::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--accent);
+    box-shadow: 0 0 8px var(--accent);
+    flex-shrink: 0;
+  }
+  .cap-list { list-style: none; display: flex; flex-direction: column; gap: 11px; }
+  .cap-list li {
+    color: var(--text);
+    font-size: 14px;
+    display: flex; align-items: baseline; gap: 12px;
+    line-height: 1.4;
+  }
+  .cap-list li::before {
+    content: '→';
+    font-family: var(--font-mono);
+    color: var(--text-faint);
+    font-size: 12px;
+    flex-shrink: 0;
+  }
+
+  /* CREDENTIALS */
+  .creds-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+  }
+  a.cred {
+    padding: 24px 44px 24px 24px;
+    border: 1px solid var(--border);
+    background: var(--bg-elevated);
+    border-radius: 10px;
+    display: flex; flex-direction: column; gap: 8px;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+  }
+  a.cred::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: var(--accent);
+    transform: translateX(-3px);
+    transition: transform 0.3s ease;
+  }
+  a.cred:hover {
+    border-color: var(--border-strong);
+    transform: translateY(-3px);
+    background: var(--surface);
+  }
+  a.cred:hover::before { transform: translateX(0); }
+  .cred-issuer {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-faint);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .cred-name {
+    font-size: 15px;
+    color: var(--text);
+    font-weight: 500;
+    line-height: 1.35;
+  }
+  .cred-arrow {
+    position: absolute;
+    top: 22px; right: 20px;
+    font-size: 13px;
+    color: var(--text-faint);
+    transition: color 0.3s, transform 0.3s;
+  }
+  a.cred:hover .cred-arrow {
+    color: var(--accent);
+    transform: translate(2px, -2px);
+  }
+
+  /* CONTACT */
+  .contact { border-top: 1px solid var(--border); }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: end;
+  }
+  @media (max-width: 900px) { .contact-grid { grid-template-columns: 1fr; gap: 48px; } }
+  .contact-headline {
+    font-family: var(--font-display);
+    font-size: clamp(38px, 6vw, 84px);
+    font-weight: 400;
+    line-height: 0.98;
+    letter-spacing: -0.02em;
+  }
+  .contact-headline em { font-style: italic; color: var(--accent); }
+  .contact-info { display: flex; flex-direction: column; gap: 24px; }
+  .contact-row { display: flex; flex-direction: column; gap: 6px; }
+  .contact-key {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-faint);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .contact-val {
+    font-size: clamp(15px, 1.4vw, 18px);
+    color: var(--text);
+    text-decoration: none;
+    transition: color 0.2s;
+    display: inline-flex; align-items: center; gap: 8px;
+    width: fit-content;
+    max-width: 100%;
+    word-break: break-word;
+  }
+  a.contact-val:hover { color: var(--accent); }
+  a.contact-val::after {
+    content: '↗';
+    font-size: 14px;
+    color: var(--text-faint);
+    transition: transform 0.2s, color 0.2s;
+    flex-shrink: 0;
+  }
+  a.contact-val:hover::after {
+    color: var(--accent);
+    transform: translate(2px, -2px);
+  }
+
+  /* Copy-to-clipboard (contact email) */
+  .contact-email { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .copy-btn {
+    all: unset; cursor: pointer;
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--text-muted);
+    padding: 5px 12px; border: 1px solid var(--border-strong); border-radius: 999px;
+    display: inline-flex; align-items: center; gap: 6px;
+    transition: color 0.2s, border-color 0.2s, background 0.2s;
+  }
+  .copy-btn:hover { color: var(--accent); border-color: var(--accent-dim); background: rgba(245,184,61,0.05); }
+  .copy-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .copy-btn.copied { color: var(--online); border-color: var(--online); background: rgba(34,197,94,0.07); }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 28px 0;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-faint);
+    letter-spacing: 0.04em;
+  }
+  footer .container {
+    display: flex; align-items: center; justify-content: center;
+    flex-wrap: wrap; gap: 12px;
+  }
+
+  /* Reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+
+  
+  
+  /* ============ CLAW'D LADDER (RIGHT-EDGE SCROLL COMPANION) ============ */
+  .claud-ladder {
+    position: fixed;
+    top: 80px;
+    bottom: 24px;
+    right: 14px;
+    width: 52px;
+    z-index: 40;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+  }
+  .claud-ladder.shown { opacity: 1; }
+
+  .ladder-track {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .ladder-rail {
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg,
+      transparent 0%,
+      rgba(245, 184, 61, 0.55) 6%,
+      rgba(245, 184, 61, 0.7) 50%,
+      rgba(245, 184, 61, 0.55) 94%,
+      transparent 100%);
+    box-shadow:
+      0 0 6px rgba(245, 184, 61, 0.6),
+      0 0 14px rgba(245, 184, 61, 0.25);
+  }
+  .ladder-rail-left { left: 9px; }
+  .ladder-rail-right { right: 9px; }
+
+  .ladder-rungs {
+    position: absolute;
+    inset: 0 9px;
+    background-image: repeating-linear-gradient(
+      180deg,
+      transparent 0,
+      transparent 30px,
+      rgba(245, 184, 61, 0.32) 30px,
+      rgba(245, 184, 61, 0.32) 31px
+    );
+    /* Mask edges so rungs fade at top and bottom */
+    -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 8%, #000 92%, transparent 100%);
+    mask-image: linear-gradient(180deg, transparent 0%, #000 8%, #000 92%, transparent 100%);
+  }
+
+  .ladder-energy {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 0;
+    width: 16px; height: 50px;
+    background: radial-gradient(ellipse at center,
+      rgba(245, 184, 61, 0.65) 0%,
+      rgba(245, 184, 61, 0.25) 35%,
+      transparent 70%);
+    filter: blur(1px);
+    animation: ladder-energy-flow 5s linear infinite;
+    pointer-events: none;
+  }
+  @keyframes ladder-energy-flow {
+    from { top: -10%; opacity: 0; }
+    8%   { opacity: 1; }
+    92%  { opacity: 1; }
+    to   { top: 105%; opacity: 0; }
+  }
+
+  /* Section markers on the ladder */
+  .ladder-marker {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 1.5px solid rgba(245, 184, 61, 0.5);
+    box-shadow: 0 0 6px rgba(245, 184, 61, 0.3);
+    transition: all 0.4s ease;
+  }
+  .ladder-marker.passed {
+    background: var(--accent);
+    border-color: var(--accent);
+    box-shadow: 0 0 10px var(--accent), 0 0 20px rgba(245, 184, 61, 0.4);
+  }
+
+  /* ============ CLAW'D RIDER (animated character on the ladder) ============ */
+  .claud-rider {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 64px;
+    height: 70px;
+    margin-left: -32px;
+    /* No transition — rAF writes every frame, CSS interpolation would only add lag */
+    transition: none;
+    will-change: transform;
+    pointer-events: none;
+    /* Force GPU layer */
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+  }
+  .rider-button {
+    all: unset;
+    cursor: grab;
+    pointer-events: auto;
+    display: block;
+    width: 100%; height: 100%;
+    border-radius: 50%;
+    transition: filter 0.3s ease;
+    touch-action: none;
+  }
+  .claud-rider.dragging { transition: none !important; }
+  .claud-rider.dragging .rider-button { cursor: grabbing; }
+  html.rider-dragging, html.rider-dragging body {
+    -webkit-user-select: none;
+    user-select: none;
+  }
+  .rider-button:hover { filter: brightness(1.1); }
+  .rider-button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 4px;
+  }
+  .rider-inner {
+    width: 100%; height: 100%;
+    transform-origin: 50% 70%;
+    filter: drop-shadow(0 4px 12px rgba(245, 184, 61, 0.35));
+  }
+  .rider-inner .mascot {
+    width: 100%; height: 100%;
+    overflow: visible;
+  }
+
+  /* ===== State: IDLE (default) ===== */
+  .claud-rider .eyes-idle { display: block; }
+  .claud-rider .eyes-sleep,
+  .claud-rider .eyes-annoyed,
+  .claud-rider .zzz,
+  .claud-rider .anger-marks { display: none; }
+  .claud-rider .rider-inner { animation: rider-idle 2.4s ease-in-out infinite; }
+  @keyframes rider-idle {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-3px); }
+  }
+
+  /* ===== State: CLIMBING (during scroll) ===== */
+  .claud-rider.climbing .rider-inner { animation: rider-climb 0.32s ease-in-out infinite; }
+  @keyframes rider-climb {
+    0%   { transform: translateY(0)  rotate(-7deg); }
+    50%  { transform: translateY(-3px) rotate(7deg); }
+    100% { transform: translateY(0)  rotate(-7deg); }
+  }
+
+  /* ===== State: SLEEPING ===== */
+  .claud-rider.sleeping .eyes-idle { display: none; }
+  .claud-rider.sleeping .eyes-sleep { display: block; }
+  .claud-rider.sleeping .zzz { display: block; }
+  .claud-rider.sleeping .rider-inner { animation: rider-sleep 3.2s ease-in-out infinite; }
+  @keyframes rider-sleep {
+    0%, 100% { transform: scaleY(1) translateY(0); }
+    50%      { transform: scaleY(0.96) scaleX(1.04) translateY(1px); }
+  }
+  .zzz text {
+    font-family: var(--font-mono, monospace);
+    font-weight: 700;
+    fill: var(--accent);
+    opacity: 0;
+  }
+  .claud-rider.sleeping .zzz .z1 { animation: z-rise 2.4s ease-out infinite; }
+  .claud-rider.sleeping .zzz .z2 { animation: z-rise 2.4s ease-out 0.8s infinite; }
+  .claud-rider.sleeping .zzz .z3 { animation: z-rise 2.4s ease-out 1.6s infinite; }
+  @keyframes z-rise {
+    0%   { transform: translate(0, 0) scale(0.8); opacity: 0; }
+    15%  { opacity: 1; }
+    100% { transform: translate(18px, -42px) scale(1.2); opacity: 0; }
+  }
+
+  /* ===== State: ANNOYED ===== */
+  .claud-rider.annoyed .eyes-idle { display: none; }
+  .claud-rider.annoyed .eyes-annoyed { display: block; }
+  .claud-rider.annoyed .anger-marks { display: block; }
+  .claud-rider.annoyed .rider-inner { animation: rider-shake 0.16s ease-in-out infinite; }
+  @keyframes rider-shake {
+    0%, 100% { transform: translateX(0) rotate(0deg); }
+    25%      { transform: translateX(-3px) rotate(-4deg); }
+    75%      { transform: translateX(3px)  rotate(4deg); }
+  }
+  .anger-marks {
+    animation: anger-pulse 0.4s ease-in-out infinite;
+    transform-origin: center;
+  }
+  @keyframes anger-pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%      { opacity: 0.65; transform: scale(1.18); }
+  }
+
+  /* Hide on smaller screens / narrow viewports */
+  @media (max-width: 1100px) {
+    .claud-ladder { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .portrait-ring, .portrait-glow, .orbit-marker,
+    .online-badge, .meta-val.status::before { animation: none; }
+    html { scroll-behavior: auto; }
+  }
+
+  /* ============ FUTURISTIC AI BACKGROUND ============ */
+  .bg-fx {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .bg-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(55px);
+    opacity: 0.42;
+    will-change: transform;
+  }
+  /* Pause heavy bg animations when modal is open — page underneath isn't visible */
+  body.modal-open .bg-orb,
+  body.modal-open .bg-particle {
+    animation-play-state: paused;
+  }
+  /* Mobile: further reduce blur, drop the third orb */
+  @media (max-width: 720px) {
+    .bg-orb { filter: blur(32px); opacity: 0.28; }
+    .bg-orb-3 { display: none; }
+  }
+  .bg-orb-1 {
+    width: 560px; height: 560px;
+    background: radial-gradient(circle, rgba(245, 184, 61, 0.55) 0%, transparent 70%);
+    top: -15%; left: -10%;
+    animation: drift-1 28s ease-in-out infinite;
+  }
+  .bg-orb-2 {
+    width: 640px; height: 640px;
+    background: radial-gradient(circle, rgba(199, 125, 255, 0.42) 0%, transparent 70%);
+    top: 35%; right: -18%;
+    animation: drift-2 34s ease-in-out infinite;
+  }
+  .bg-orb-3 {
+    width: 480px; height: 480px;
+    background: radial-gradient(circle, rgba(78, 205, 196, 0.32) 0%, transparent 70%);
+    bottom: -10%; left: 28%;
+    animation: drift-3 40s ease-in-out infinite;
+  }
+  @keyframes drift-1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(80px, 60px) scale(1.12); }
+  }
+  @keyframes drift-2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(-60px, -40px) scale(0.92); }
+  }
+  @keyframes drift-3 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(40px, -70px) scale(1.08); }
+  }
+  .bg-scanline {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg,
+      transparent 0%,
+      rgba(245, 184, 61, 0.04) 50%,
+      transparent 100%);
+    background-size: 100% 8px;
+    opacity: 0.4;
+    mix-blend-mode: overlay;
+  }
+  .bg-particle {
+    position: absolute;
+    width: 2px; height: 2px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 4px var(--accent);
+    opacity: 0;
+    animation: twinkle 4s ease-in-out infinite;
+  }
+  @keyframes twinkle {
+    0%, 100% { opacity: 0; transform: scale(0.5); }
+    50% { opacity: 0.8; transform: scale(1); }
+  }
+
+  /* ============ CLAW'D MASCOT (HERO) ============ */
+  /* The portrait-circle now hosts the SVG mascot instead of the photo */
+  .portrait-circle {
+    background: radial-gradient(circle at 50% 40%,
+      rgba(245, 184, 61, 0.12) 0%,
+      rgba(15, 14, 12, 0.6) 70%);
+    box-shadow:
+      0 0 0 1px rgba(245, 184, 61, 0.3),
+      inset 0 0 80px rgba(245, 184, 61, 0.08),
+      inset 0 0 0 1px rgba(199, 125, 255, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .portrait-circle .mascot {
+    width: 78%;
+    height: 78%;
+    overflow: visible;
+  }
+
+  /* Mascot animations */
+  .mascot-body {
+    transform-origin: 120px 200px;
+    animation: mascot-bob 3s ease-in-out infinite;
+  }
+  .mascot-shadow {
+    transform-origin: 120px 240px;
+    animation: mascot-shadow 3s ease-in-out infinite;
+  }
+  .mascot-antenna {
+    transform-origin: 120px 42px;
+    animation: mascot-antenna 1.6s ease-in-out infinite;
+  }
+  .mascot-eyes { animation: mascot-blink 5s ease-in-out infinite; }
+  @keyframes mascot-bob {
+    0%, 100% { transform: translateY(0) rotate(-1deg); }
+    50% { transform: translateY(-10px) rotate(1deg); }
+  }
+  @keyframes mascot-shadow {
+    0%, 100% { transform: scaleX(1); opacity: 0.55; }
+    50% { transform: scaleX(0.82); opacity: 0.3; }
+  }
+  @keyframes mascot-antenna {
+    0%, 100% { transform: scale(1); filter: brightness(1); }
+    50% { transform: scale(1.25); filter: brightness(1.4); }
+  }
+  @keyframes mascot-blink {
+    0%, 92%, 100% { opacity: 1; transform: scaleY(1); }
+    94%, 98% { opacity: 1; transform: scaleY(0.1); }
+  }
+
+  /* ===== Claw'd reacts on hover (hero mascot) ===== */
+  .portrait-orb:hover .mascot-body { animation: mascot-hover-dance 0.75s ease-in-out infinite; }
+  .portrait-orb:hover .mascot-shadow { animation: mascot-hover-shadow 0.75s ease-in-out infinite; }
+  .portrait-orb:hover .mascot-antenna { animation: mascot-antenna 0.6s ease-in-out infinite; }
+  @keyframes mascot-hover-dance {
+    0%   { transform: translateY(0) rotate(0deg); }
+    20%  { transform: translateY(-13px) rotate(-6deg); }
+    45%  { transform: translateY(0) rotate(5deg); }
+    62%  { transform: translateY(-6px) rotate(-3deg); }
+    82%  { transform: translateY(0) rotate(2deg); }
+    100% { transform: translateY(0) rotate(0deg); }
+  }
+  @keyframes mascot-hover-shadow {
+    0%, 100% { transform: scaleX(1); opacity: 0.55; }
+    20%      { transform: scaleX(0.68); opacity: 0.26; }
+    45%      { transform: scaleX(1); opacity: 0.55; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bg-orb, .bg-particle,
+    .mascot-body, .mascot-shadow, .mascot-antenna, .mascot-eyes {
+      animation: none !important;
+    }
+  }
+
+
+  /* CTA inside project card */
+  .project-cta {
+    all: unset;
+    box-sizing: border-box;
+    display: inline-flex;
+    cursor: pointer;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    margin-top: 8px;
+    align-self: flex-start;
+    border: 1px solid var(--accent-dim);
+    border-radius: 999px;
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    background: rgba(245, 184, 61, 0.04);
+    transition: all 0.25s ease;
+  }
+  .project-cta:hover {
+    background: var(--accent);
+    color: var(--bg);
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px -8px rgba(245, 184, 61, 0.45);
+  }
+  .project-cta .cta-arrow { transition: transform 0.25s ease; }
+  .project-cta:hover .cta-arrow { transform: translate(2px, -2px); }
+
+
+  /* ============ ARCHITECTURE MODAL ============ */
+  .arch-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background: rgba(8, 7, 6, 0.86);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+  .arch-modal.open {
+    opacity: 1;
+    visibility: visible;
+  }
+  body.modal-open { overflow: hidden; }
+
+  .arch-modal-inner {
+    max-width: 1480px;
+    margin: 0 auto;
+    padding: 28px 32px 80px;
+    position: relative;
+    transform: translateY(20px);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .arch-modal.open .arch-modal-inner { transform: translateY(0); }
+
+  .arch-modal-close {
+    all: unset;
+    box-sizing: border-box;
+    position: sticky;
+    top: 12px;
+    z-index: 10;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    border: 1px solid var(--border-strong);
+    border-radius: 999px;
+    color: var(--text);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    background: rgba(15, 14, 12, 0.85);
+    backdrop-filter: blur(8px);
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-bottom: 28px;
+  }
+  .arch-modal-close:hover {
+    color: var(--accent);
+    border-color: var(--accent-dim);
+    background: rgba(245, 184, 61, 0.06);
+  }
+  .arch-modal-close .x { font-size: 14px; line-height: 1; }
+
+  /* === Architecture content (lives inside modal) === */
+  .arch-header { margin-bottom: 36px; }
+  .arch-header h2 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(32px, 4.5vw, 56px);
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+  }
+  .arch-header h2 em { font-style: italic; color: var(--accent); }
+  .arch-header .arch-subtitle {
+    font-size: 15px;
+    color: var(--text-muted);
+    max-width: 760px;
+    line-height: 1.6;
+  }
+  .arch-header .arch-subtitle strong { color: var(--text); font-weight: 500; }
+
+  /* High Level Solution Design diagram */
+  .hls-section { margin-bottom: 40px; }
+  .hls-title-block { margin-bottom: 18px; }
+  .hls-title-tag {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border: 1px solid var(--accent-dim);
+    border-radius: 999px;
+    margin-bottom: 12px;
+    background: rgba(245, 184, 61, 0.04);
+  }
+  .hls-title {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 1.05;
+    color: var(--text);
+    letter-spacing: -0.01em;
+    margin: 0;
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .hls-title em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .hls-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--border-strong), transparent);
+    align-self: center;
+    min-width: 60px;
+  }
+  .hls-frame {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    background: var(--bg-elevated);
+    overflow-x: auto;
+  }
+  .hls-svg {
+    width: 100%;
+    min-width: 880px;
+    height: auto;
+    display: block;
+  }
+
+  /* Columns + layers (reused from old architecture page) */
+  .arch-columns {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 22px;
+  }
+  @media (max-width: 1100px) { .arch-columns { grid-template-columns: 1fr; } }
+  .arch-col-title {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-faint);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .arch-col-title::before {
+    content: '';
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 8px var(--accent);
+  }
+
+  .arch-layer {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px 16px;
+    margin-bottom: 12px;
+    background: var(--bg-elevated);
+    transition: border-color 0.3s;
+  }
+  .arch-layer:hover { border-color: var(--border-strong); }
+  .arch-layer-head {
+    display: flex; align-items: baseline; gap: 12px;
+    margin-bottom: 12px; padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .arch-layer-title {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--accent);
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .arch-layer-sub {
+    font-size: 11px;
+    color: var(--text-faint);
+    font-style: italic;
+  }
+
+  .arch-agents { display: flex; flex-wrap: wrap; gap: 8px; }
+  .arch-agent {
+    flex: 1 1 0; min-width: 0;
+    padding: 11px 12px;
+    border-radius: 6px;
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    transition: transform 0.2s, border-color 0.2s;
+  }
+  .arch-agent:hover { transform: translateY(-1px); border-color: var(--text-faint); }
+  .arch-agent .agent-name {
+    font-size: 11.5px; font-weight: 600; color: var(--text);
+    margin-bottom: 4px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .arch-agent .agent-name::before {
+    content: ''; width: 4px; height: 4px; border-radius: 50%; flex-shrink: 0;
+  }
+  .arch-agent .agent-desc {
+    font-size: 10.5px; color: var(--text-muted); line-height: 1.4;
+  }
+
+  .arch-tier-enterprise     { border-left: 2.5px solid var(--accent); }
+  .arch-tier-enterprise .agent-name::before { background: var(--accent); box-shadow: 0 0 6px var(--accent); }
+  .arch-tier-enterprise.alt {
+    border-left-color: var(--accent-warm);
+    background-image: repeating-linear-gradient(45deg, transparent 0 6px, rgba(255, 140, 66, 0.04) 6px 12px);
+  }
+  .arch-tier-enterprise.alt .agent-name::before { background: var(--accent-warm); box-shadow: 0 0 6px var(--accent-warm); }
+  .arch-tier-super      { border-left: 2.5px solid #E3A431; }
+  .arch-tier-super .agent-name::before { background: #E3A431; box-shadow: 0 0 6px #E3A431; }
+  .arch-tier-domain     { border-left: 2.5px solid #C58F26; }
+  .arch-tier-domain .agent-name::before { background: #C58F26; }
+  .arch-tier-process    { border-left: 2.5px solid #A77A1F; }
+  .arch-tier-process .agent-name::before { background: #A77A1F; }
+  .arch-tier-specialist { border-left: 2.5px solid var(--neon-violet); background: rgba(199, 125, 255, 0.04); }
+  .arch-tier-specialist .agent-name::before { background: var(--neon-violet); box-shadow: 0 0 6px var(--neon-violet); }
+  .arch-tier-utility    { border-left: 2.5px solid var(--accent-warm); }
+  .arch-tier-utility .agent-name::before { background: var(--accent-warm); }
+
+  .arch-agent.kb {
+    background: linear-gradient(135deg, rgba(78, 205, 196, 0.06), rgba(78, 205, 196, 0.02));
+    border: 1px solid rgba(78, 205, 196, 0.18);
+    border-left: 2.5px solid var(--neon-cyan);
+  }
+  .arch-agent.kb .agent-name::before { background: var(--neon-cyan); box-shadow: 0 0 6px var(--neon-cyan); }
+
+  .arch-kb-grid {
+    display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 8px; margin-top: 6px;
+  }
+  @media (max-width: 900px) { .arch-kb-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 540px) { .arch-kb-grid { grid-template-columns: 1fr; } }
+  .arch-kb-col {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 9px;
+    background: rgba(78, 205, 196, 0.025);
+  }
+  .arch-kb-col h4 {
+    font-family: var(--font-mono);
+    font-size: 10px; font-weight: 700;
+    margin-bottom: 8px; text-align: center;
+    padding-bottom: 6px; border-bottom: 1px solid var(--border);
+    letter-spacing: 0.06em; text-transform: uppercase;
+  }
+  .arch-kb-col h4.cat-data    { color: #FF8C42; }
+  .arch-kb-col h4.cat-review  { color: #FF5577; }
+  .arch-kb-col h4.cat-advise  { color: var(--neon-cyan); }
+  .arch-kb-col h4.cat-case    { color: var(--neon-violet); }
+  .arch-kb-block {
+    background: rgba(245, 240, 230, 0.03);
+    border-left: 2px solid var(--border-strong);
+    border-radius: 0 3px 3px 0;
+    padding: 6px 8px; margin-bottom: 5px;
+    font-size: 9.5px; line-height: 1.4; color: var(--text-muted);
+  }
+  .arch-kb-block:last-child { margin-bottom: 0; }
+  .arch-kb-block strong {
+    font-family: var(--font-mono);
+    font-size: 9px; font-weight: 500; color: var(--text-faint);
+    letter-spacing: 0.08em; text-transform: uppercase;
+    display: block; margin-bottom: 3px;
+  }
+  .arch-kb-block ul { padding-left: 12px; margin: 0; }
+
+  .arch-apps {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin-top: 18px;
+    background: var(--bg-elevated);
+  }
+  .arch-apps-title {
+    font-family: var(--font-mono);
+    font-size: 11px; color: var(--accent);
+    letter-spacing: 0.1em; text-transform: uppercase;
+    margin-bottom: 12px; text-align: center;
+    display: flex; align-items: center; justify-content: center; gap: 12px;
+  }
+  .arch-apps-title::before, .arch-apps-title::after {
+    content: ''; height: 1px; flex: 1; background: var(--border);
+  }
+  .arch-apps-row {
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 8px;
+  }
+  .arch-app-pill {
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-radius: 999px;
+    padding: 5px 12px;
+    font-family: var(--font-mono);
+    font-size: 10px; font-weight: 500;
+    color: var(--text-muted);
+    letter-spacing: 0.02em;
+    transition: all 0.2s;
+  }
+  .arch-app-pill:hover { color: var(--accent); border-color: var(--accent-dim); }
+
+  /* ============ AI CHAT WIDGET (Claw'd) ============ */
+  .cbot { position: fixed; right: 24px; bottom: 24px; z-index: 95; font-family: var(--font-sans); }
+  /* Clear the right-edge ladder on wide screens */
+  @media (min-width: 1101px) { .cbot { right: 84px; } }
+
+  .cbot-launcher {
+    width: 60px; height: 60px; border-radius: 50%;
+    border: 1px solid var(--accent-dim);
+    background: radial-gradient(circle at 35% 30%, var(--accent-warm), var(--accent) 62%, var(--accent-dim));
+    color: var(--bg);
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 10px 30px -8px rgba(245,184,61,0.55);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, opacity 0.25s ease;
+    animation: cbot-pulse 3s ease-out infinite;
+  }
+  .cbot-launcher:hover { transform: translateY(-2px) scale(1.04); box-shadow: 0 16px 40px -10px rgba(245,184,61,0.7); }
+  .cbot-launcher svg { width: 27px; height: 27px; }
+  @keyframes cbot-pulse {
+    0%   { box-shadow: 0 10px 30px -8px rgba(245,184,61,0.55), 0 0 0 0 rgba(245,184,61,0.45); }
+    70%  { box-shadow: 0 10px 30px -8px rgba(245,184,61,0.55), 0 0 0 14px rgba(245,184,61,0); }
+    100% { box-shadow: 0 10px 30px -8px rgba(245,184,61,0.55), 0 0 0 0 rgba(245,184,61,0); }
+  }
+  .cbot--open .cbot-launcher { opacity: 0; pointer-events: none; transform: scale(0.6); }
+
+  .cbot-panel {
+    position: absolute; right: 0; bottom: 0;
+    width: min(380px, calc(100vw - 36px));
+    height: min(560px, calc(100vh - 120px));
+    display: flex; flex-direction: column;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-strong);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 30px 80px -20px rgba(0,0,0,0.7);
+    opacity: 0; transform: translateY(16px) scale(0.98); pointer-events: none;
+    transition: opacity 0.28s ease, transform 0.28s cubic-bezier(0.16,1,0.3,1);
+  }
+  .cbot--open .cbot-panel { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+
+  .cbot-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 16px;
+    background: linear-gradient(180deg, var(--surface), var(--bg-elevated));
+    border-bottom: 1px solid var(--border);
+  }
+  .cbot-header-id { display: flex; align-items: center; gap: 10px; min-width: 0; }
+  .cbot-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--online); box-shadow: 0 0 8px var(--online); flex-shrink: 0; }
+  .cbot-title { font-size: 14px; font-weight: 600; color: var(--text); line-height: 1.1; }
+  .cbot-subtitle { font-family: var(--font-mono); font-size: 10px; color: var(--text-faint); letter-spacing: 0.04em; margin-top: 3px; }
+  .cbot-close {
+    all: unset; cursor: pointer; color: var(--text-muted); font-size: 13px;
+    width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;
+    border-radius: 8px; transition: color 0.2s, background 0.2s; flex-shrink: 0;
+  }
+  .cbot-close:hover { color: var(--text); background: rgba(245,240,230,0.05); }
+
+  .cbot-log {
+    flex: 1; overflow-y: auto; padding: 16px;
+    display: flex; flex-direction: column; gap: 10px;
+    scrollbar-width: thin; scrollbar-color: var(--border-strong) transparent;
+  }
+  .cbot-log::-webkit-scrollbar { width: 6px; }
+  .cbot-log::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
+
+  .cbot-msg {
+    max-width: 84%; padding: 10px 13px; font-size: 14px; line-height: 1.5;
+    border-radius: 14px; white-space: pre-wrap; overflow-wrap: anywhere;
+  }
+  .cbot-msg--bot {
+    align-self: flex-start;
+    background: var(--surface); color: var(--text);
+    border: 1px solid var(--border); border-bottom-left-radius: 4px;
+  }
+  .cbot-msg--user {
+    align-self: flex-end;
+    background: var(--accent); color: var(--bg);
+    border-bottom-right-radius: 4px; font-weight: 500;
+  }
+  .cbot-typing { display: flex; gap: 4px; align-items: center; }
+  .cbot-typing span {
+    width: 6px; height: 6px; border-radius: 50%; background: var(--text-muted);
+    animation: cbot-bounce 1.2s infinite ease-in-out;
+  }
+  .cbot-typing span:nth-child(2) { animation-delay: 0.15s; }
+  .cbot-typing span:nth-child(3) { animation-delay: 0.3s; }
+  @keyframes cbot-bounce { 0%,80%,100% { transform: translateY(0); opacity: 0.5; } 40% { transform: translateY(-4px); opacity: 1; } }
+
+  .cbot-suggest { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 16px 4px; }
+  .cbot-chip {
+    all: unset; cursor: pointer;
+    font-family: var(--font-mono); font-size: 10.5px; color: var(--text-muted);
+    padding: 6px 11px; border: 1px solid var(--border-strong); border-radius: 999px;
+    transition: all 0.2s;
+  }
+  .cbot-chip:hover { color: var(--accent); border-color: var(--accent-dim); background: rgba(245,184,61,0.04); }
+
+  .cbot-input-row {
+    display: flex; gap: 8px; padding: 12px; border-top: 1px solid var(--border);
+    background: var(--bg-elevated);
+  }
+  .cbot-input {
+    flex: 1; min-width: 0; background: var(--bg); color: var(--text);
+    border: 1px solid var(--border-strong); border-radius: 999px;
+    padding: 10px 16px; font-family: var(--font-sans); font-size: 14px; outline: none;
+    transition: border-color 0.2s;
+  }
+  .cbot-input::placeholder { color: var(--text-faint); }
+  .cbot-input:focus { border-color: var(--accent-dim); }
+  .cbot-send {
+    all: unset; cursor: pointer; flex-shrink: 0;
+    width: 40px; height: 40px; border-radius: 50%;
+    background: var(--accent); color: var(--bg);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+  }
+  .cbot-send:hover { transform: scale(1.06); box-shadow: 0 6px 18px -6px rgba(245,184,61,0.6); }
+  .cbot-send:disabled { opacity: 0.4; cursor: default; transform: none; box-shadow: none; }
+  .cbot-footer {
+    padding: 0 16px 12px; font-size: 10px; color: var(--text-faint);
+    text-align: center; background: var(--bg-elevated);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cbot-launcher { animation: none; }
+    .cbot-panel { transition: opacity 0.2s ease; transform: none; }
+    .cbot-typing span { animation: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-fx" aria-hidden="true">
+  <div class="bg-orb bg-orb-1"></div>
+  <div class="bg-orb bg-orb-2"></div>
+  <div class="bg-orb bg-orb-3"></div>
+  <div class="bg-scanline"></div>
+  <div id="bgParticles"></div>
+</div>
+
+
+<nav>
+  <div class="container">
+    <a href="#" class="brand" aria-label="Francis Reyes — open AI assistant" aria-haspopup="dialog">
+      <div class="brand-avatar">
+        <img src="data:image/jpeg;base64,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" alt="" />
+        <span class="online-badge" aria-hidden="true"></span>
+      </div>
+      <div class="brand-text">
+        <span class="brand-name">FRANCIS REYES</span>
+        <span class="brand-status">● Online</span>
+      </div>
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="#about">About me</a>
+      <a href="#work">Projects</a>
+      <a href="#capabilities">Stack</a>
+      <a href="#contact" class="cta">Contact me</a>
+    </div>
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-top">
+      <!-- Neon orb portrait — LEFT -->
+      <div class="portrait-orb">
+        <div class="portrait-glow"></div>
+        <div class="portrait-ring"></div>
+        <div class="portrait-ring-inner"></div>
+        <div class="portrait-circle"><svg class="mascot" viewBox="0 0 240 260" xmlns="http://www.w3.org/2000/svg" aria-label="Claw'd, the AI automation mascot">
+  <defs>
+    <linearGradient id="cgBody" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFD27A"/>
+      <stop offset="45%" stop-color="#F5B83D"/>
+      <stop offset="100%" stop-color="#B5841C"/>
+    </linearGradient>
+    <linearGradient id="cgShine" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFF1C7" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#FFF1C7" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="cgCheek" cx="50%" cy="50%">
+      <stop offset="0%" stop-color="#FF6B35" stop-opacity="0.75"/>
+      <stop offset="100%" stop-color="#FF6B35" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="cgAntenna">
+      <stop offset="0%" stop-color="#FFE5A0"/>
+      <stop offset="100%" stop-color="#F5B83D"/>
+    </radialGradient>
+  </defs>
+
+  <ellipse class="mascot-shadow" cx="120" cy="244" rx="70" ry="7" fill="#000" opacity="0.55"/>
+
+  <g class="mascot-body">
+    <g transform="translate(3, 5)" opacity="0.5">
+      <rect x="50" y="70" width="144" height="122" rx="14" fill="#2D1F08"/>
+      <rect x="30" y="106" width="22" height="40" rx="6" fill="#2D1F08"/>
+      <rect x="190" y="106" width="22" height="40" rx="6" fill="#2D1F08"/>
+      <rect x="70" y="190" width="32" height="38" rx="6" fill="#2D1F08"/>
+      <rect x="140" y="190" width="32" height="38" rx="6" fill="#2D1F08"/>
+    </g>
+
+    <rect x="28" y="106" width="22" height="40" rx="6" fill="url(#cgBody)" stroke="#8C6A1F" stroke-width="2.5"/>
+    <rect x="188" y="106" width="22" height="40" rx="6" fill="url(#cgBody)" stroke="#8C6A1F" stroke-width="2.5"/>
+    <rect x="68" y="190" width="32" height="38" rx="6" fill="url(#cgBody)" stroke="#8C6A1F" stroke-width="2.5"/>
+    <rect x="138" y="190" width="32" height="38" rx="6" fill="url(#cgBody)" stroke="#8C6A1F" stroke-width="2.5"/>
+
+    <rect x="48" y="70" width="144" height="122" rx="14" fill="url(#cgBody)" stroke="#8C6A1F" stroke-width="2.5"/>
+    <rect x="56" y="78" width="128" height="12" rx="6" fill="url(#cgShine)"/>
+
+    <circle cx="80" cy="152" r="13" fill="url(#cgCheek)"/>
+    <circle cx="160" cy="152" r="13" fill="url(#cgCheek)"/>
+
+    <g class="mascot-eyes" stroke="#1A1814" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none">
+      <path d="M 72 116 L 94 132 L 72 148"/>
+      <path d="M 168 116 L 146 132 L 168 148"/>
+    </g>
+
+    <rect x="104" y="162" width="32" height="6" rx="3" fill="#1A1814" opacity="0.55"/>
+
+    <line x1="120" y1="70" x2="120" y2="48" stroke="#8C6A1F" stroke-width="3" stroke-linecap="round"/>
+    <g class="mascot-antenna">
+      <circle cx="120" cy="42" r="7.5" fill="url(#cgAntenna)" stroke="#1A1814" stroke-width="2.5"/>
+      <circle cx="118" cy="40" r="2.5" fill="#FFF8DD" opacity="0.85"/>
+    </g>
+  </g>
+</svg></div>
+        <span class="orbit-marker" aria-hidden="true"></span>
+      </div>
+
+      <!-- Text content — RIGHT -->
+      <div class="hero-text">
+        <div class="hero-tag">Technology Architect · AI Automation Engineer · Software Engineer</div>
+        <h1>
+          Designing systems<br/>
+          that <span class="italic">run themselves.</span>
+        </h1>
+        <p class="hero-sub">
+          I build <strong>AI automation workflows</strong> and <strong>cloud-native integrations</strong>
+          that replace manual operations with reliable, observable systems.
+        </p>
+        <div class="hero-actions">
+          <a href="#work" class="btn btn-primary">
+            See selected work <span class="arrow">→</span>
+          </a>
+          <a href="#contact" class="btn btn-ghost">
+            Get in touch <span class="arrow">↗</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="meta-grid">
+      <div class="meta-item">
+        <span class="meta-key">Role</span>
+        <span class="meta-val">Technology Architect</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-key">Based in</span>
+        <span class="meta-val">Cebu City, PH</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-key">Currently</span>
+        <span class="meta-val">Accenture</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-key">Status</span>
+        <span class="meta-val status">Available for projects</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="section-label reveal"><span class="section-num">01</span> / About me</div>
+    <div class="about-grid">
+      <h2 class="about-heading reveal">
+        I translate <em>messy operations</em> into structured automation.
+      </h2>
+      <div class="about-body reveal">
+        <p>
+          Three years at Accenture as a Technology Architect taught me that the
+          interesting problem is rarely the code — it's the <strong>system around the code</strong>:
+          who triggers it, where state lives, how it fails, how it gets approved.
+        </p>
+        <p>
+          I work across <strong>n8n, Make, Zapier, and Azure Functions</strong> to compose
+          AI-augmented workflows. My architecture background means I think about
+          identity, certificates, error handling, and operational handoff
+          from day one — not as an afterthought.
+        </p>
+        <p>
+          Most of my recent work sits at the intersection of <strong>cloud automation,
+          LLM integration, and human-in-the-loop approval flows</strong>. I document
+          everything, ship reliable, and care about the operator who inherits the system.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORK -->
+<section id="work">
+  <div class="container">
+    <div class="section-label reveal"><span class="section-num">02</span> / Projects</div>
+    <h2 class="about-heading reveal" style="margin-bottom: 56px; max-width: 700px;">
+      Automation systems, <em>shipped and running.</em>
+    </h2>
+
+    <div class="projects-list">
+
+      <!-- 01 -->
+      <article class="project reveal">
+        <div class="project-num">[01]</div>
+        <div class="project-main">
+          <h3 class="project-title">Automated <em>Incident Response</em> &amp; Notification System</h3>
+          <p class="project-summary">
+            Connected monitoring alerts to collaboration platforms, eliminating manual
+            triage and getting the right team paged with enriched context — within seconds.
+          </p>
+          <div class="project-stack">
+            <span class="tag">Zapier</span>
+            <span class="tag">Azure Monitor</span>
+            <span class="tag">MS Teams</span>
+            <span class="tag">Slack</span>
+            <span class="tag">REST APIs</span>
+          </div>
+          <div class="flow">
+            <span class="flow-node">Azure Monitor</span><span class="flow-arrow">→</span>
+            <span class="flow-node accent">Zapier</span><span class="flow-arrow">→</span>
+            <span class="flow-node">Ticket + Triage</span><span class="flow-arrow">→</span>
+            <span class="flow-node">Teams / Slack</span>
+          </div>
+        </div>
+        <div class="project-details">
+          <div class="detail"><span class="detail-key">Problem</span><span class="detail-val">Operations teams manually triaging alerts; slow response times and inconsistent assignment.</span></div>
+          <div class="detail"><span class="detail-key">Approach</span><span class="detail-val">Trigger-driven workflow that detects alerts, enriches them via API lookups, creates tickets with priority, and pages the relevant channel.</span></div>
+          <div class="detail"><span class="detail-key">Outcome</span><span class="detail-val outcome">~75% faster mean response time and ~15 hours/week of manual triage eliminated across two ops teams.</span></div>
+        </div>
+      </article>
+
+      <!-- 02 -->
+      <article class="project reveal">
+        <div class="project-num">[02]</div>
+        <div class="project-main">
+          <h3 class="project-title">Real Estate <em>Listing Monitor</em> &amp; Owner Notifications</h3>
+          <p class="project-summary">
+            A monitoring layer over property listings that watches for meaningful changes
+            (price drops, status flips, new inquiries) and notifies owners by email — only when it matters.
+          </p>
+          <div class="project-stack">
+            <span class="tag">Make (Integromat)</span>
+            <span class="tag">Gmail API</span>
+            <span class="tag">Webhooks</span>
+            <span class="tag">Scheduled Triggers</span>
+          </div>
+          <div class="flow">
+            <span class="flow-node">Listing Sources</span><span class="flow-arrow">→</span>
+            <span class="flow-node accent">Make</span><span class="flow-arrow">→</span>
+            <span class="flow-node">Filter Rules</span><span class="flow-arrow">→</span>
+            <span class="flow-node">Gmail</span>
+          </div>
+        </div>
+        <div class="project-details">
+          <div class="detail"><span class="detail-key">Problem</span><span class="detail-val">Property owners losing visibility into critical listing events buried under noise.</span></div>
+          <div class="detail"><span class="detail-key">Approach</span><span class="detail-val">Event-based triggers with business-rule filtering, retry logic, and logged delivery so only high-value events reach the inbox.</span></div>
+          <div class="detail"><span class="detail-key">Outcome</span><span class="detail-val outcome">85% reduction in notification noise; 500+ listings tracked daily with alerts delivered in under 5 minutes.</span></div>
+        </div>
+      </article>
+
+      <!-- 03 -->
+      <article class="project reveal">
+        <div class="project-num">[03]</div>
+        <div class="project-main">
+          <h3 class="project-title">Discord-to-Gmail <em>Service Desk</em> Intake &amp; Approval</h3>
+          <p class="project-summary">
+            A fully automated request lifecycle — Discord slash command in,
+            structured Gmail approval out, status reply back to the requester
+            with reference tracking and audit logs.
+          </p>
+          <div class="project-stack">
+            <span class="tag">n8n</span>
+            <span class="tag">Discord</span>
+            <span class="tag">Gmail</span>
+            <span class="tag">Webhooks</span>
+          </div>
+          <div class="flow">
+            <span class="flow-node">Discord /new-request</span><span class="flow-arrow">→</span>
+            <span class="flow-node accent">n8n Validation</span><span class="flow-arrow">→</span>
+            <span class="flow-node">Gmail Approval</span><span class="flow-arrow">→</span>
+            <span class="flow-node">Discord Status</span>
+          </div>
+        </div>
+        <div class="project-details">
+          <div class="detail"><span class="detail-key">Problem</span><span class="detail-val">Ad-hoc service requests scattered across chats with no validation, no approval trail, no audit.</span></div>
+          <div class="detail"><span class="detail-key">Approach</span><span class="detail-val">Schema-validated intake via slash commands; parsed Gmail replies (APPROVED / REJECTED) drive workflow state; deduplication and retry baked in.</span></div>
+          <div class="detail"><span class="detail-key">Outcome</span><span class="detail-val outcome">~90% faster request lifecycle, 100% audit coverage from day one, and ~40 requests/week handled with zero manual logging.</span></div>
+        </div>
+      </article>
+
+      <!-- 04 -->
+      <article class="project reveal">
+        <div class="project-num">[04]</div>
+        <div class="project-main">
+          <h3 class="project-title"><em>AI Cloud</em> Automation Workflow</h3>
+          <p class="project-summary">
+            An AI-enabled cloud workflow that combines Azure Functions,
+            storage, monitoring, and LLM decision points to automate request
+            handling and process execution at scale.
+          </p>
+          <div class="project-stack">
+            <span class="tag">Azure Functions</span>
+            <span class="tag">Blob Storage</span>
+            <span class="tag">Azure Monitor</span>
+            <span class="tag">AI Decisioning</span>
+          </div>
+          <div class="flow">
+            <span class="flow-node">Trigger</span><span class="flow-arrow">→</span>
+            <span class="flow-node accent">Function + AI</span><span class="flow-arrow">→</span>
+            <span class="flow-node">Storage</span><span class="flow-arrow">→</span>
+            <span class="flow-node">Monitored Response</span>
+          </div>
+        </div>
+        <div class="project-details">
+          <div class="detail"><span class="detail-key">Problem</span><span class="detail-val">Repetitive request-handling that needed contextual judgment, not just rule-matching.</span></div>
+          <div class="detail"><span class="detail-key">Approach</span><span class="detail-val">Mapped triggers, data steps, AI decision points, and automated responses; documented assumptions and dependencies for maintainability.</span></div>
+          <div class="detail"><span class="detail-key">Outcome</span><span class="detail-val outcome">~60% reduction in manual handling, ~20 hours/week recovered, with zero-touch processing on 80% of routine requests.</span></div>
+        </div>
+      </article>
+      <!-- 05 -->
+      <article class="project reveal">
+        <div class="project-num">[05]</div>
+        <div class="project-main">
+          <h3 class="project-title"><em>Identity Access Management</em> Certificate Advisor</h3>
+          <p class="project-summary">
+            A six-tier Claude-powered agentic architecture for enterprise certificate services.
+            Turns vague user intent ("my server needs a cert") into the right PKI workflow across
+            EJBCA, public SSL, code signing, S/MIME, and certificate-based authentication —
+            with the right form pre-filled and the right team paged.
+          </p>
+          <div class="project-stack">
+            <span class="tag">Claude API</span>
+            <span class="tag">Agentic AI</span>
+            <span class="tag">EJBCA</span>
+            <span class="tag">PKI</span>
+            <span class="tag">ACME / SCEP / EST</span>
+            <span class="tag">Azure AD</span>
+            <span class="tag">Active Directory</span>
+          </div>
+          <div class="flow">
+            <span class="flow-node">User Intent</span><span class="flow-arrow">→</span>
+            <span class="flow-node accent">Claude Orchestrator</span><span class="flow-arrow">→</span>
+            <span class="flow-node">Domain Specialist</span><span class="flow-arrow">→</span>
+            <span class="flow-node">CSSP / Team Queue</span>
+          </div>
+          <button class="project-cta" id="openArchModal" type="button">
+            View architecture <span class="cta-arrow">↗</span>
+          </button>
+        </div>
+        <div class="project-details">
+          <div class="detail"><span class="detail-key">Problem</span><span class="detail-val">Certificate operations span dozens of services (internal PKI, public SSL, code signing, S/MIME, automation), each with different protocols and approvers. Users routinely open tickets to the wrong team or get stuck in protocol-mismatch loops.</span></div>
+          <div class="detail"><span class="detail-key">Approach</span><span class="detail-val">Designed a six-tier agentic architecture — Enterprise → Super → Domain → Process → Specialist → Utility — where Claude resolves identity, triages intent, detects protocols, and routes to the specialist agent loaded on demand. Backed by a structured Digital Brain of required fields, business rules, and team queues per domain.</span></div>
+          <div class="detail"><span class="detail-key">Outcome</span><span class="detail-val outcome">~40% reduction in complex task handling — Claude resolves protocol selection, identity binding, and CSSP form pre-fill autonomously instead of bouncing requests between three teams. First-ask routing accuracy improved from ~50% to ~85%, and average time-to-resolution dropped by an estimated ~60% for routine certificate requests. Operators inherit a system that scales: new domain specialists plug into the same orchestrator pattern without re-architecting the front door.</span></div>
+        </div>
+      </article>
+
+
+                            </div>
+  </div>
+</section>
+
+<!-- CAPABILITIES -->
+<section id="capabilities">
+  <div class="container">
+    <div class="section-label reveal"><span class="section-num">03</span> / Stack</div>
+    <h2 class="about-heading reveal" style="margin-bottom: 56px; max-width: 700px;">
+      The <em>stack</em> I reach for.
+    </h2>
+
+    <div class="cap-grid reveal">
+      <div class="cap-card">
+        <div class="cap-category">Automation Platforms</div>
+        <ul class="cap-list">
+          <li>n8n (self-hosted workflows)</li>
+          <li>Make (Integromat)</li>
+          <li>Zapier</li>
+          <li>Airtable</li>
+        </ul>
+      </div>
+      <div class="cap-card">
+        <div class="cap-category">AI &amp; LLM Tools</div>
+        <ul class="cap-list">
+          <li>Claude (Code &amp; API)</li>
+          <li>GitHub Copilot</li>
+          <li>Amethyst Studio</li>
+          <li>LLM workflow integration</li>
+        </ul>
+      </div>
+      <div class="cap-card">
+        <div class="cap-category">Cloud — Azure</div>
+        <ul class="cap-list">
+          <li>Function Apps</li>
+          <li>Key Vault &amp; secrets</li>
+          <li>Blob Storage</li>
+          <li>Entra ID / App Registrations</li>
+          <li>Monitor &amp; App Insights</li>
+        </ul>
+      </div>
+      <div class="cap-card">
+        <div class="cap-category">Integration</div>
+        <ul class="cap-list">
+          <li>REST APIs &amp; webhooks</li>
+          <li>Service-to-service auth</li>
+          <li>Certificate-based auth (PKI)</li>
+          <li>Postman / Insomnia</li>
+        </ul>
+      </div>
+      <div class="cap-card">
+        <div class="cap-category">Architecture &amp; Docs</div>
+        <ul class="cap-list">
+          <li>Solution &amp; system diagrams</li>
+          <li>Process flow documentation</li>
+          <li>Architecture review inputs</li>
+          <li>Draw.io / technical writeups</li>
+        </ul>
+      </div>
+      <div class="cap-card">
+        <div class="cap-category">Languages</div>
+        <ul class="cap-list">
+          <li>Python · JavaScript</li>
+          <li>C# · Java · C++</li>
+          <li>JSON · YAML</li>
+          <li>HTML &amp; web fundamentals</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CREDENTIALS -->
+<section id="credentials">
+  <div class="container">
+    <div class="section-label reveal"><span class="section-num">04</span> / Credentials</div>
+    <h2 class="about-heading reveal" style="margin-bottom: 48px; max-width: 700px;">
+      Certified across the <em>Microsoft &amp; Anthropic</em> stack.
+    </h2>
+    <div class="creds-grid reveal">
+      <a class="cred" href="https://learn.microsoft.com/api/credentials/share/en-us/ReyesFrancisJan-5251/CE831402CFCD9786?sharingId=571535CB3A89A72B" target="_blank" rel="noopener noreferrer"><span class="cred-issuer">Microsoft</span><span class="cred-name">Azure Fundamentals</span><span class="cred-arrow" aria-hidden="true">↗</span></a>
+      <a class="cred" href="https://learn.microsoft.com/api/credentials/share/en-us/ReyesFrancisJan-5251/67C59DE703EFD37B?sharingId=571535CB3A89A72B" target="_blank" rel="noopener noreferrer"><span class="cred-issuer">Microsoft</span><span class="cred-name">Azure AI Fundamentals</span><span class="cred-arrow" aria-hidden="true">↗</span></a>
+      <a class="cred" href="https://learn.microsoft.com/api/credentials/share/en-us/ReyesFrancisJan-5251/38F36678AE728F50?sharingId=571535CB3A89A72B" target="_blank" rel="noopener noreferrer"><span class="cred-issuer">Microsoft</span><span class="cred-name">Azure Data Fundamentals</span><span class="cred-arrow" aria-hidden="true">↗</span></a>
+      <a class="cred" href="https://learn.microsoft.com/api/credentials/share/en-us/ReyesFrancisJan-5251/53CF8BD06D254D68?sharingId=571535CB3A89A72B" target="_blank" rel="noopener noreferrer"><span class="cred-issuer">Microsoft</span><span class="cred-name">Security, Compliance, and Identity Fundamentals</span><span class="cred-arrow" aria-hidden="true">↗</span></a>
+      <a class="cred" href="https://bcert.me/sqplvwgsq" target="_blank" rel="noopener noreferrer"><span class="cred-issuer">Accenture</span><span class="cred-name">Technology Architect Associate</span><span class="cred-arrow" aria-hidden="true">↗</span></a>
+      <a class="cred" href="https://verify.skilljar.com/c/kjo7csg2kjvf" target="_blank" rel="noopener noreferrer"><span class="cred-issuer">Anthropic</span><span class="cred-name">Claude Certified Architect — Foundations</span><span class="cred-arrow" aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="contact">
+  <div class="container">
+    <div class="section-label reveal"><span class="section-num">05</span> / Contact</div>
+    <div class="contact-grid">
+      <h2 class="contact-headline reveal">
+        Let's build something<br/>
+        <em>that runs itself.</em>
+      </h2>
+      <div class="contact-info reveal">
+        <div class="contact-row">
+          <span class="contact-key">Email</span>
+          <div class="contact-email">
+            <a class="contact-val" href="mailto:francisjanreyes@gmail.com">francisjanreyes@gmail.com</a>
+            <button class="copy-btn" type="button" data-copy="francisjanreyes@gmail.com" aria-label="Copy email address">
+              <span class="copy-btn-label">Copy</span>
+            </button>
+          </div>
+        </div>
+        <div class="contact-row">
+          <span class="contact-key">LinkedIn</span>
+          <a class="contact-val" href="https://linkedin.com/in/francis-jan-reyes-65a35b265" target="_blank" rel="noopener">linkedin.com/in/francis-jan-reyes-65a35b265</a>
+        </div>
+        <div class="contact-row">
+          <span class="contact-key">Phone</span>
+          <a class="contact-val" href="tel:+639395909246">+63 939 590 9246</a>
+        </div>
+        <div class="contact-row">
+          <span class="contact-key">Location</span>
+          <span class="contact-val" style="cursor: default;">Cebu City, Philippines</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <span>© <span id="year">2026</span> · Francis Jan Reyes</span>
+  </div>
+</footer>
+
+
+
+
+
+
+
+
+
+<div class="arch-modal" id="archModal" role="dialog" aria-modal="true" aria-labelledby="archModalTitle" hidden>
+  <div class="arch-modal-inner">
+    <button class="arch-modal-close" id="closeArchModal" type="button">
+      <span class="x">✕</span>
+      <span>Close</span>
+    </button>
+
+    <div class="arch-header">
+      <div class="hero-tag" style="margin-bottom: 18px;">Project · Agentic Architecture</div>
+      <h2 id="archModalTitle">Identity Access Management <em>Certificate Advisor</em></h2>
+      <p class="arch-subtitle">
+        <strong>Scalable certificate services advisory through smart orchestrators and dynamic agents</strong>,
+        powered by a comprehensive PKI knowledge base. A six-tier Claude-driven agent architecture that routes
+        user intent across enterprise certificate services — from internal PKI to public SSL to code signing to S/MIME.
+      </p>
+    </div>
+
+    <!-- HIGH LEVEL SOLUTION DESIGN -->
+    <div class="hls-section">
+      <div class="hls-title-block">
+        <span class="hls-title-tag">Diagram · Solution Architecture</span>
+        <h3 class="hls-title">High Level <em>Solution Design</em></h3>
+      </div>
+      <div class="hls-frame">
+        <svg class="hls-svg" viewBox="0 0 1200 820" xmlns="http://www.w3.org/2000/svg" aria-label="High Level Solution Design diagram">
+  <defs>
+    <marker id="hlsArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#A87E26"/>
+    </marker>
+    <linearGradient id="hlsClaudeFill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="rgba(245,184,61,0.06)"/>
+      <stop offset="100%" stop-color="rgba(245,184,61,0.02)"/>
+    </linearGradient>
+    <linearGradient id="hlsSourceFill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="rgba(78,205,196,0.06)"/>
+      <stop offset="100%" stop-color="rgba(78,205,196,0.02)"/>
+    </linearGradient>
+
+    <!-- ICON SYMBOLS -->
+    <!-- Person + monitor (agents) -->
+    <symbol id="iconAgent" viewBox="0 0 50 50" overflow="visible">
+      <circle cx="25" cy="10" r="5" fill="none" stroke="currentColor" stroke-width="2"/>
+      <path d="M 14 22 Q 14 16 25 16 Q 36 16 36 22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <rect x="10" y="26" width="30" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="2"/>
+      <line x1="25" y1="42" x2="25" y2="46" stroke="currentColor" stroke-width="2"/>
+      <line x1="20" y1="46" x2="30" y2="46" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </symbol>
+
+    <!-- Network hub (IAM Portal) -->
+    <symbol id="iconHub" viewBox="0 0 50 50" overflow="visible">
+      <circle cx="25" cy="25" r="6" fill="none" stroke="currentColor" stroke-width="2"/>
+      <circle cx="25" cy="25" r="2.5" fill="currentColor"/>
+      <circle cx="25" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <circle cx="42" cy="25" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <circle cx="25" cy="42" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <circle cx="8" cy="25" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <line x1="25" y1="11" x2="25" y2="19" stroke="currentColor" stroke-width="1.5"/>
+      <line x1="39" y1="25" x2="31" y2="25" stroke="currentColor" stroke-width="1.5"/>
+      <line x1="25" y1="39" x2="25" y2="31" stroke="currentColor" stroke-width="1.5"/>
+      <line x1="11" y1="25" x2="19" y2="25" stroke="currentColor" stroke-width="1.5"/>
+    </symbol>
+
+    <!-- Cloud + magnifying glass (Azure AI Search) -->
+    <symbol id="iconCloudSearch" viewBox="0 0 60 50" overflow="visible">
+      <path d="M 14 28 Q 6 28 6 22 Q 6 15 14 15 Q 14 8 22 8 Q 34 8 34 16 Q 42 15 42 24 Q 42 28 36 28 Z"
+            fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+      <circle cx="40" cy="34" r="7" fill="none" stroke="currentColor" stroke-width="2.5"/>
+      <line x1="46" y1="40" x2="52" y2="46" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+    </symbol>
+
+    <!-- Hexagonal storage block (Azure Blob) -->
+    <symbol id="iconBlob" viewBox="0 0 50 50" overflow="visible">
+      <polygon points="25,5 42,14 42,36 25,45 8,36 8,14"
+               fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+      <polyline points="8,14 25,23 42,14" fill="none" stroke="currentColor" stroke-width="1.4"/>
+      <line x1="25" y1="23" x2="25" y2="45" stroke="currentColor" stroke-width="1.4"/>
+      <text x="25" y="33" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="6" fill="currentColor" font-weight="700">10 01</text>
+    </symbol>
+
+    <!-- Stylized parallel filled lightning bolts (serverless function indicator) -->
+    <symbol id="iconBolts" viewBox="0 0 50 50" overflow="visible">
+      <g fill="currentColor" stroke="currentColor" stroke-width="0.6" stroke-linejoin="round">
+        <path d="M 19 4 L 9 24 L 17 24 L 13 46 L 25 22 L 17 22 Z"/>
+        <path d="M 35 4 L 25 24 L 33 24 L 29 46 L 41 22 L 33 22 Z"/>
+      </g>
+    </symbol>
+
+    <!-- Database cylinder with cloud (Azure SQL) -->
+    <symbol id="iconCloudDB" viewBox="0 0 60 50" overflow="visible">
+      <path d="M 8 17 Q 3 17 3 13 Q 3 7 9 7 Q 10 3 16 3 Q 22 1 25 7 Q 30 7 30 12" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.6"/>
+      <ellipse cx="35" cy="18" rx="14" ry="4" fill="none" stroke="currentColor" stroke-width="2"/>
+      <path d="M 21 18 L 21 38 Q 21 42 35 42 Q 49 42 49 38 L 49 18" fill="none" stroke="currentColor" stroke-width="2"/>
+      <ellipse cx="35" cy="26" rx="14" ry="4" fill="none" stroke="currentColor" stroke-width="1.4"/>
+      <text x="35" y="35" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="6" fill="currentColor" font-weight="700">SQL</text>
+    </symbol>
+
+    <!-- Detailed folder (Source Folder) -->
+    <symbol id="iconFolder" viewBox="0 0 60 50" overflow="visible">
+      <path d="M 6 12 L 6 40 Q 6 44 10 44 L 50 44 Q 54 44 54 40 L 54 18 Q 54 14 50 14 L 28 14 L 22 8 L 10 8 Q 6 8 6 12 Z"
+            fill="none" stroke="currentColor" stroke-width="2"/>
+      <line x1="14" y1="24" x2="46" y2="24" stroke="currentColor" stroke-width="1.2" opacity="0.55"/>
+      <line x1="14" y1="30" x2="46" y2="30" stroke="currentColor" stroke-width="1.2" opacity="0.55"/>
+      <line x1="14" y1="36" x2="38" y2="36" stroke="currentColor" stroke-width="1.2" opacity="0.55"/>
+    </symbol>
+  </defs>
+
+  <!-- ============ CLAUDE CONTAINER ============ -->
+  <rect x="240" y="40" width="900" height="380" rx="14"
+        fill="url(#hlsClaudeFill)" stroke="#A87E26" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <rect x="252" y="32" width="74" height="20" rx="4" fill="#0B0A09" stroke="#A87E26" stroke-width="1"/>
+  <text x="289" y="46" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#F5B83D" letter-spacing="1">CLAUDE</text>
+
+  <!-- ============ IAM CERTIFICATES PORTAL (external, aligned with Main Agent) ============ -->
+  <g color="#4ECDC4">
+    <rect x="40" y="65" width="170" height="130" rx="8" fill="#1A1814" stroke="#4ECDC4" stroke-width="1.5"/>
+    <use href="#iconHub" x="100" y="85" width="50" height="50"/>
+    <text x="125" y="161" text-anchor="middle" font-family="Onest, sans-serif" font-size="12" fill="#F5F0E6" font-weight="600">IAM Certificates Portal</text>
+    <text x="125" y="180" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#5A554C" letter-spacing="0.5">EXTERNAL · ENTRY</text>
+  </g>
+
+  <!-- ============ CERTIFICATES MAIN AGENT ============ -->
+  <g color="#F5B83D">
+    <rect x="545" y="70" width="290" height="120" rx="8" fill="rgba(245,184,61,0.08)" stroke="#F5B83D" stroke-width="1.5"/>
+    <rect x="555" y="62" width="80" height="14" rx="3" fill="#0B0A09" stroke="#F5B83D" stroke-width="0.5"/>
+    <text x="595" y="72" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="#F5B83D" letter-spacing="0.5">ORCHESTRATOR</text>
+    <use href="#iconAgent" x="568" y="84" width="42" height="42"/>
+    <text x="710" y="118" text-anchor="middle" font-family="Onest, sans-serif" font-size="14" fill="#F5F0E6" font-weight="600">Certificates Main Agent</text>
+    <text x="710" y="140" text-anchor="middle" font-family="Onest, sans-serif" font-size="11" fill="#908B81">Routes intent across sub-agents</text>
+    <text x="710" y="160" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#5A554C" letter-spacing="0.5">CLAUDE · SUPER ORCHESTRATOR</text>
+  </g>
+
+  <!-- ============ 4 SUB-AGENTS ============ -->
+  <g color="#D6A234">
+    <rect x="275" y="240" width="170" height="130" rx="8" fill="#1A1814" stroke="#D6A234" stroke-width="1.5"/>
+    <use href="#iconAgent" x="340" y="256" width="40" height="40"/>
+    <text x="360" y="320" text-anchor="middle" font-family="Onest, sans-serif" font-size="14" fill="#F5F0E6" font-weight="700">CBA</text>
+    <text x="360" y="338" text-anchor="middle" font-family="Onest, sans-serif" font-size="11" fill="#908B81">Sub-agent</text>
+    <text x="360" y="356" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="#5A554C" letter-spacing="0.5">CERT-BASED AUTH</text>
+  </g>
+  <g color="#D6A234">
+    <rect x="475" y="240" width="170" height="130" rx="8" fill="#1A1814" stroke="#D6A234" stroke-width="1.5"/>
+    <use href="#iconAgent" x="540" y="256" width="40" height="40"/>
+    <text x="560" y="320" text-anchor="middle" font-family="Onest, sans-serif" font-size="14" fill="#F5F0E6" font-weight="700">CAE</text>
+    <text x="560" y="338" text-anchor="middle" font-family="Onest, sans-serif" font-size="11" fill="#908B81">Sub-agent</text>
+    <text x="560" y="356" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="#5A554C" letter-spacing="0.5">CERT AUTH ENROLL</text>
+  </g>
+  <g color="#D6A234">
+    <rect x="675" y="240" width="170" height="130" rx="8" fill="#1A1814" stroke="#D6A234" stroke-width="1.5"/>
+    <use href="#iconAgent" x="740" y="256" width="40" height="40"/>
+    <text x="760" y="320" text-anchor="middle" font-family="Onest, sans-serif" font-size="14" fill="#F5F0E6" font-weight="700">CLM</text>
+    <text x="760" y="338" text-anchor="middle" font-family="Onest, sans-serif" font-size="11" fill="#908B81">Sub-agent</text>
+    <text x="760" y="356" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="#5A554C" letter-spacing="0.5">CERT LIFECYCLE</text>
+  </g>
+  <g color="#D6A234">
+    <rect x="875" y="240" width="170" height="130" rx="8" fill="#1A1814" stroke="#D6A234" stroke-width="1.5"/>
+    <use href="#iconAgent" x="940" y="256" width="40" height="40"/>
+    <text x="960" y="320" text-anchor="middle" font-family="Onest, sans-serif" font-size="14" fill="#F5F0E6" font-weight="700">CDA</text>
+    <text x="960" y="338" text-anchor="middle" font-family="Onest, sans-serif" font-size="11" fill="#908B81">Sub-agent</text>
+    <text x="960" y="356" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="#5A554C" letter-spacing="0.5">CERT DELIVERY AUTO</text>
+  </g>
+
+  <!-- ============ AZURE AI SEARCH ============ -->
+  <g color="#C77DFF">
+    <rect x="60" y="500" width="170" height="120" rx="8" fill="#1A1814" stroke="#C77DFF" stroke-width="1.5"/>
+    <use href="#iconCloudSearch" x="115" y="516" width="60" height="50"/>
+    <text x="145" y="586" text-anchor="middle" font-family="Onest, sans-serif" font-size="13" fill="#F5F0E6" font-weight="600">Azure AI Search</text>
+    <text x="145" y="604" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#5A554C" letter-spacing="0.5">VECTOR · INDEX</text>
+  </g>
+
+  <!-- ============ AZURE SQL (below AI Search) ============ -->
+  <g color="#C77DFF">
+    <rect x="60" y="660" width="170" height="120" rx="8" fill="#1A1814" stroke="#C77DFF" stroke-width="1.5"/>
+    <use href="#iconCloudDB" x="115" y="676" width="60" height="50"/>
+    <text x="145" y="746" text-anchor="middle" font-family="Onest, sans-serif" font-size="13" fill="#F5F0E6" font-weight="600">Azure SQL</text>
+    <text x="145" y="764" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#5A554C" letter-spacing="0.5">RELATIONAL · STORE</text>
+  </g>
+
+  <!-- ============ AZURE BLOB ============ -->
+  <g color="#C77DFF">
+    <rect x="280" y="500" width="160" height="120" rx="8" fill="#1A1814" stroke="#C77DFF" stroke-width="1.5"/>
+    <use href="#iconBlob" x="335" y="514" width="50" height="50"/>
+    <text x="360" y="586" text-anchor="middle" font-family="Onest, sans-serif" font-size="13" fill="#F5F0E6" font-weight="600">Azure Blob</text>
+    <text x="360" y="604" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#5A554C" letter-spacing="0.5">OBJECT · STORAGE</text>
+  </g>
+
+  <!-- ============ AZURE FUNCTION ============ -->
+  <g color="#C77DFF">
+    <rect x="490" y="500" width="160" height="120" rx="8" fill="#1A1814" stroke="#C77DFF" stroke-width="1.5"/>
+    <use href="#iconBolts" x="545" y="514" width="50" height="50"/>
+    <text x="570" y="586" text-anchor="middle" font-family="Onest, sans-serif" font-size="13" fill="#F5F0E6" font-weight="600">Azure Function</text>
+    <text x="570" y="604" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#5A554C" letter-spacing="0.5">SERVERLESS</text>
+  </g>
+
+  <!-- ============ SOURCE FOLDER (SharePoint container) ============ -->
+  <rect x="700" y="478" width="260" height="170" rx="10"
+        fill="url(#hlsSourceFill)" stroke="#4ECDC4" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <rect x="712" y="470" width="100" height="18" rx="3" fill="#0B0A09" stroke="#4ECDC4" stroke-width="1"/>
+  <text x="762" y="483" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#4ECDC4" letter-spacing="0.6">SHAREPOINT</text>
+  <g color="#4ECDC4">
+    <rect x="725" y="500" width="210" height="120" rx="6" fill="#1A1814" stroke="#4ECDC4" stroke-width="1"/>
+    <use href="#iconFolder" x="800" y="514" width="60" height="50"/>
+    <text x="830" y="586" text-anchor="middle" font-family="Onest, sans-serif" font-size="13" fill="#F5F0E6" font-weight="600">Source Folder</text>
+    <text x="830" y="604" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#5A554C" letter-spacing="0.5">DOCUMENT · LIBRARY</text>
+  </g>
+
+  <!-- ============ ARROWS ============ -->
+  <!-- IAM Portal → Main Agent (horizontal, aligned centers) -->
+  <path d="M 210 130 L 545 130" stroke="#A87E26" stroke-width="1.5" fill="none" marker-end="url(#hlsArrow)"/>
+
+  <!-- Main Agent (bottom center 690,190) → 4 Sub-agents (top center) -->
+  <path d="M 690 190 L 690 220 L 360 220 L 360 240" stroke="#A87E26" stroke-width="1.5" fill="none" marker-end="url(#hlsArrow)"/>
+  <path d="M 690 190 L 690 220 L 560 220 L 560 240" stroke="#A87E26" stroke-width="1.5" fill="none" marker-end="url(#hlsArrow)"/>
+  <path d="M 690 190 L 690 220 L 760 220 L 760 240" stroke="#A87E26" stroke-width="1.5" fill="none" marker-end="url(#hlsArrow)"/>
+  <path d="M 690 190 L 690 220 L 960 220 L 960 240" stroke="#A87E26" stroke-width="1.5" fill="none" marker-end="url(#hlsArrow)"/>
+
+  <!-- 4 Sub-agents (bottom 370) → Azure AI Search (top 145,500) -->
+  <path d="M 360 370 L 360 450 L 145 450 L 145 500" stroke="#A87E26" stroke-width="1.2" fill="none" marker-end="url(#hlsArrow)" opacity="0.85"/>
+  <path d="M 560 370 L 560 440 L 145 440 L 145 500" stroke="#A87E26" stroke-width="1.2" fill="none" marker-end="url(#hlsArrow)" opacity="0.85"/>
+  <path d="M 760 370 L 760 430 L 145 430 L 145 500" stroke="#A87E26" stroke-width="1.2" fill="none" marker-end="url(#hlsArrow)" opacity="0.85"/>
+  <path d="M 960 370 L 960 420 L 145 420 L 145 500" stroke="#A87E26" stroke-width="1.2" fill="none" marker-end="url(#hlsArrow)" opacity="0.85"/>
+
+  <!-- Source Folder → Azure Function (right to left) -->
+  <path d="M 725 560 L 650 560" stroke="#A87E26" stroke-width="1.5" fill="none" marker-end="url(#hlsArrow)"/>
+
+  <!-- Azure Function → Azure Blob -->
+  <path d="M 490 560 L 440 560" stroke="#A87E26" stroke-width="1.5" fill="none" marker-end="url(#hlsArrow)"/>
+
+  <!-- Azure Blob → Azure AI Search -->
+  <path d="M 280 560 L 230 560" stroke="#A87E26" stroke-width="1.5" fill="none" marker-end="url(#hlsArrow)"/>
+
+  <!-- Azure AI Search → Azure SQL (downward) -->
+  <path d="M 145 620 L 145 660" stroke="#A87E26" stroke-width="1.5" fill="none" marker-end="url(#hlsArrow)"/>
+</svg>
+      </div>
+    </div>
+
+    <div class="arch-columns">
+
+      <!-- LEFT: AGENTIC TREE -->
+      <div>
+        <div class="arch-col-title">Agentic Tree</div>
+
+        <div class="arch-layer">
+          <div class="arch-layer-head">
+            <div class="arch-layer-title">Enterprise Super Orchestrator</div>
+          </div>
+          <div class="arch-agents">
+            <div class="arch-agent arch-tier-enterprise">
+              <div class="agent-name">Claude (Enterprise)</div>
+              <div class="agent-desc">Top-level Claude entry point across all enterprise agent surfaces</div>
+            </div>
+            <div class="arch-agent arch-tier-enterprise alt">
+              <div class="agent-name">Identity / Tenant Agent</div>
+              <div class="agent-desc">Resolves requester identity, team, and entitlements before routing</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="arch-layer">
+          <div class="arch-layer-head">
+            <div class="arch-layer-title">Super Orchestrator</div>
+            <div class="arch-layer-sub">Initial intake and intent detection</div>
+          </div>
+          <div class="arch-agents">
+            <div class="arch-agent arch-tier-super">
+              <div class="agent-name">Certificate Services Advisor</div>
+              <div class="agent-desc">Front-door agent — listens to the user's actual problem and routes to the right service</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="arch-layer">
+          <div class="arch-layer-head">
+            <div class="arch-layer-title">Domain Orchestrators</div>
+            <div class="arch-layer-sub">Narrows intent to a specific service family</div>
+          </div>
+          <div class="arch-agents">
+            <div class="arch-agent arch-tier-domain"><div class="agent-name">Internal PKI</div><div class="agent-desc">EJBCA · CAE</div></div>
+            <div class="arch-agent arch-tier-domain"><div class="agent-name">Public Trust</div><div class="agent-desc">Public SSL · CT monitoring</div></div>
+            <div class="arch-agent arch-tier-domain"><div class="agent-name">Signing &amp; Identity</div><div class="agent-desc">Code Signing · S/MIME · Azure SP CBA</div></div>
+            <div class="arch-agent arch-tier-domain"><div class="agent-name">Automation &amp; Intake</div><div class="agent-desc">CDA · CSSP</div></div>
+          </div>
+        </div>
+
+        <div class="arch-layer">
+          <div class="arch-layer-head">
+            <div class="arch-layer-title">Process Orchestrators</div>
+            <div class="arch-layer-sub">Identifies the specific process to run</div>
+          </div>
+          <div class="arch-agents">
+            <div class="arch-agent arch-tier-process"><div class="agent-name">Onboarding</div><div class="agent-desc">New endpoint or workload onboarding walk-through</div></div>
+            <div class="arch-agent arch-tier-process"><div class="agent-name">Issuance &amp; Renewal</div><div class="agent-desc">Enrollment via ACME / SCEP / EST / REST and renewal automation</div></div>
+            <div class="arch-agent arch-tier-process"><div class="agent-name">Troubleshooting</div><div class="agent-desc">First-pass diagnosis for enrollment, install, and verification failures</div></div>
+            <div class="arch-agent arch-tier-process"><div class="agent-name">Design Review</div><div class="agent-desc">Per-component assessment of submitted architectures and diagrams</div></div>
+          </div>
+        </div>
+
+        <div class="arch-layer">
+          <div class="arch-layer-head">
+            <div class="arch-layer-title">Dynamic Domain Specialists</div>
+            <div class="arch-layer-sub">Modular sub-skills loaded on demand</div>
+          </div>
+          <div class="arch-agents">
+            <div class="arch-agent arch-tier-specialist"><div class="agent-name">EJBCA</div><div class="agent-desc">Internal PKI via ACME / SCEP / EST / REST</div></div>
+            <div class="arch-agent arch-tier-specialist"><div class="agent-name">CAE</div><div class="agent-desc">Client-auth where endpoint can't self-enroll</div></div>
+            <div class="arch-agent arch-tier-specialist"><div class="agent-name">Public SSL</div><div class="agent-desc">Externally-trusted certificates (DigiCert, Entrust)</div></div>
+            <div class="arch-agent arch-tier-specialist"><div class="agent-name">CDA</div><div class="agent-desc">Discovery, push, install, renewal automation</div></div>
+          </div>
+          <div class="arch-agents" style="margin-top: 8px;">
+            <div class="arch-agent arch-tier-specialist"><div class="agent-name">Code Signing</div><div class="agent-desc">Submit files, receive signed files — cert stays central</div></div>
+            <div class="arch-agent arch-tier-specialist"><div class="agent-name">S/MIME</div><div class="agent-desc">Email signing &amp; encryption; key escrow rules</div></div>
+            <div class="arch-agent arch-tier-specialist"><div class="agent-name">CSSP</div><div class="agent-desc">Self-service intake portal &amp; approval routing</div></div>
+            <div class="arch-agent arch-tier-specialist"><div class="agent-name">Azure SP CBA</div><div class="agent-desc">Cert-based auth replacing client secrets</div></div>
+          </div>
+        </div>
+
+        <div class="arch-layer">
+          <div class="arch-layer-head">
+            <div class="arch-layer-title">Utility Agents &amp; Tools</div>
+            <div class="arch-layer-sub">Completes granular tasks and actions</div>
+          </div>
+          <div class="arch-agents">
+            <div class="arch-agent arch-tier-utility"><div class="agent-name">Intent Triage</div><div class="agent-desc">Internal vs public, server vs client auth</div></div>
+            <div class="arch-agent arch-tier-utility"><div class="agent-name">Protocol Detection</div><div class="agent-desc">ACME / SCEP / EST / REST capability check</div></div>
+            <div class="arch-agent arch-tier-utility"><div class="agent-name">Diagram Parser</div><div class="agent-desc">Extracts cert-bearing components from images</div></div>
+            <div class="arch-agent arch-tier-utility"><div class="agent-name">CSR Inspector</div><div class="agent-desc">openssl-style CSR decode &amp; policy check</div></div>
+          </div>
+          <div class="arch-agents" style="margin-top: 8px;">
+            <div class="arch-agent arch-tier-utility"><div class="agent-name">Chain Validator</div><div class="agent-desc">Leaf + intermediates + root verification</div></div>
+            <div class="arch-agent arch-tier-utility"><div class="agent-name">Strong Mapping Builder</div><div class="agent-desc">altSecurityIdentities for AD post-KB5014754</div></div>
+            <div class="arch-agent arch-tier-utility"><div class="agent-name">Timestamp Checker</div><div class="agent-desc">RFC 3161 verification for signed artifacts</div></div>
+            <div class="arch-agent arch-tier-utility"><div class="agent-name">Escalation Router</div><div class="agent-desc">Hands off to the right human team when needed</div></div>
+          </div>
+          <div class="arch-agents" style="margin-top: 8px;">
+            <div class="arch-agent arch-tier-utility"><div class="agent-name">CSSP Pre-fill</div><div class="agent-desc">Drafts the right request form from the chat</div></div>
+            <div class="arch-agent arch-tier-utility"><div class="agent-name">Renewal Threshold Calc</div><div class="agent-desc">Sets renewal at &lt;2/3 of validity</div></div>
+            <div class="arch-agent arch-tier-utility"><div class="agent-name">DCV Helper</div><div class="agent-desc">DNS-01 / HTTP-01 record builder</div></div>
+            <div class="arch-agent arch-tier-utility"><div class="agent-name">Conversation Logger</div><div class="agent-desc">Captures patterns to inform roadmap</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: DIGITAL BRAIN -->
+      <div>
+        <div class="arch-col-title">Digital Brain</div>
+
+        <div class="arch-layer">
+          <div class="arch-layer-head"><div class="arch-layer-title">Super Orchestrator KB</div></div>
+          <div class="arch-agents">
+            <div class="arch-agent kb">
+              <div class="agent-name">Certificate Services catalog &amp; routing logic</div>
+              <div class="agent-desc">Internal-vs-public trust, protocol capability, use-case → service map</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="arch-layer">
+          <div class="arch-layer-head"><div class="arch-layer-title">Domain Orchestrators KB</div></div>
+          <div class="arch-agents">
+            <div class="arch-agent kb">
+              <div class="agent-name">Service boundaries &amp; what each domain handles</div>
+              <div class="agent-desc">EJBCA issues · CAE issues+delivers · CDA delivers · Public SSL = external CAs · CSSP = intake</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="arch-layer">
+          <div class="arch-layer-head"><div class="arch-layer-title">Process Orchestrators KB</div></div>
+          <div class="arch-agents">
+            <div class="arch-agent kb">
+              <div class="agent-name">Available processes per domain</div>
+              <div class="agent-desc">Onboarding steps, renewal cadence, troubleshooting trees, design-review workflow</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="arch-layer">
+          <div class="arch-layer-head"><div class="arch-layer-title">Specialists &amp; Utility KB</div></div>
+          <div class="arch-kb-grid">
+            <div class="arch-kb-col">
+              <h4 class="cat-data">EJBCA / Internal PKI</h4>
+              <div class="arch-kb-block"><strong>Required fields</strong>FQDN/SAN, EKU, protocol, profile, EAB</div>
+              <div class="arch-kb-block"><strong>Business rules</strong><ul><li>EAB required for ACME</li><li>DNS-01 for wildcards</li><li>Profile wins over CSR</li></ul></div>
+              <div class="arch-kb-block"><strong>Process playbook</strong>ACME · SCEP · EST · REST onboarding recipes</div>
+              <div class="arch-kb-block"><strong>Team queue</strong>EJBCA admin team</div>
+            </div>
+            <div class="arch-kb-col">
+              <h4 class="cat-review">CAE &amp; Public SSL</h4>
+              <div class="arch-kb-block"><strong>Required fields</strong>Identity, verifier, store path, DCV method</div>
+              <div class="arch-kb-block"><strong>Business rules</strong><ul><li>Strong AD mapping (KB5014754)</li><li>CAA must permit CA</li><li>Pair with CDA for renewal</li></ul></div>
+              <div class="arch-kb-block"><strong>Process playbook</strong>Identity binding · PKINIT · DV / OV / EV flow</div>
+              <div class="arch-kb-block"><strong>Team queue</strong>CAE team · Public SSL team</div>
+            </div>
+            <div class="arch-kb-col">
+              <h4 class="cat-advise">Code Signing &amp; S/MIME</h4>
+              <div class="arch-kb-block"><strong>Required fields</strong>Artifact type, signing format, mailbox identity</div>
+              <div class="arch-kb-block"><strong>Business rules</strong><ul><li>Submit files, receive signed</li><li>Always timestamp (RFC 3161)</li><li>Encrypt keys escrowed, signing keys not</li></ul></div>
+              <div class="arch-kb-block"><strong>Process playbook</strong>Authenticode · jarsigner · cosign · GAL publish</div>
+              <div class="arch-kb-block"><strong>Team queue</strong>Code Signing team · S/MIME team</div>
+            </div>
+            <div class="arch-kb-col">
+              <h4 class="cat-case">CDA &amp; CSSP</h4>
+              <div class="arch-kb-block"><strong>Required fields</strong>Endpoint type, store path, approver, request type</div>
+              <div class="arch-kb-block"><strong>Business rules</strong><ul><li>Orchestrator per network zone</li><li>Renew at &lt;2/3 lifetime</li><li>Auto-cancel at ~10d unapproved</li></ul></div>
+              <div class="arch-kb-block"><strong>Process playbook</strong>Orchestrator install · store registration · alert tuning · CSSP form routing</div>
+              <div class="arch-kb-block"><strong>Team queue</strong>CDA team · CSSP product owner</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="arch-apps">
+      <div class="arch-apps-title">Existing Applications</div>
+      <div class="arch-apps-row">
+        <span class="arch-app-pill">EJBCA</span>
+        <span class="arch-app-pill">Keyfactor Command</span>
+        <span class="arch-app-pill">Universal Orchestrator</span>
+        <span class="arch-app-pill">CSSP Portal</span>
+        <span class="arch-app-pill">Power Automate</span>
+        <span class="arch-app-pill">DigiCert</span>
+        <span class="arch-app-pill">Entrust</span>
+        <span class="arch-app-pill">Active Directory / NTAuth</span>
+        <span class="arch-app-pill">Azure Key Vault</span>
+        <span class="arch-app-pill">AWS ACM</span>
+        <span class="arch-app-pill">ServiceNow</span>
+        <span class="arch-app-pill">SignServer (HSM)</span>
+        <span class="arch-app-pill">Microsoft Partner Center</span>
+        <span class="arch-app-pill">Exchange / GAL</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="claud-ladder" id="claudLadder" aria-hidden="true">
+  <div class="ladder-track">
+    <div class="ladder-rail ladder-rail-left"></div>
+    <div class="ladder-rail ladder-rail-right"></div>
+    <div class="ladder-rungs"></div>
+    <div class="ladder-energy"></div>
+    <div id="ladderMarkers"></div>
+  </div>
+  <div class="claud-rider" id="claudRider">
+    <button class="rider-button" id="claudRiderButton" aria-label="Poke Claw'd" type="button">
+      <div class="rider-inner">
+        <svg class="mascot" viewBox="0 0 240 280" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="rgBody" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFD27A"/>
+      <stop offset="45%" stop-color="#F5B83D"/>
+      <stop offset="100%" stop-color="#B5841C"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Body parts -->
+  <g class="body-group">
+    <rect x="28" y="106" width="22" height="40" rx="6" fill="url(#rgBody)" stroke="#8C6A1F" stroke-width="2.5"/>
+    <rect x="188" y="106" width="22" height="40" rx="6" fill="url(#rgBody)" stroke="#8C6A1F" stroke-width="2.5"/>
+    <rect x="68" y="190" width="32" height="38" rx="6" fill="url(#rgBody)" stroke="#8C6A1F" stroke-width="2.5"/>
+    <rect x="138" y="190" width="32" height="38" rx="6" fill="url(#rgBody)" stroke="#8C6A1F" stroke-width="2.5"/>
+    <rect x="48" y="70" width="144" height="122" rx="14" fill="url(#rgBody)" stroke="#8C6A1F" stroke-width="2.5"/>
+    <rect x="56" y="78" width="128" height="10" rx="5" fill="#FFF1C7" opacity="0.4"/>
+    <!-- Mouth -->
+    <rect x="104" y="162" width="32" height="6" rx="3" fill="#1A1814" opacity="0.55"/>
+    <!-- Antenna -->
+    <line x1="120" y1="70" x2="120" y2="48" stroke="#8C6A1F" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="120" cy="42" r="7.5" fill="#F5B83D" stroke="#1A1814" stroke-width="2.5"/>
+  </g>
+
+  <!-- IDLE eyes: >_< (closed-happy) -->
+  <g class="eyes-idle" stroke="#1A1814" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M 72 116 L 94 132 L 72 148"/>
+    <path d="M 168 116 L 146 132 L 168 148"/>
+  </g>
+
+  <!-- SLEEP eyes: closed flat lines -->
+  <g class="eyes-sleep" stroke="#1A1814" stroke-width="8" stroke-linecap="round" fill="none">
+    <path d="M 70 132 Q 84 122 98 132"/>
+    <path d="M 142 132 Q 156 122 170 132"/>
+  </g>
+
+  <!-- ANNOYED eyes: angry V shape -->
+  <g class="eyes-annoyed" stroke="#1A1814" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M 70 114 L 96 130"/>
+    <path d="M 70 134 L 96 130"/>
+    <path d="M 170 114 L 144 130"/>
+    <path d="M 170 134 L 144 130"/>
+  </g>
+
+  <!-- Z particles for sleep -->
+  <g class="zzz">
+    <text class="z1" x="170" y="60" font-size="22">Z</text>
+    <text class="z2" x="170" y="60" font-size="18">z</text>
+    <text class="z3" x="170" y="60" font-size="14">z</text>
+  </g>
+
+  <!-- Anger marks: comic-style burst above head -->
+  <g class="anger-marks" stroke="#FF4444" stroke-width="3.5" stroke-linecap="round" fill="none">
+    <line x1="50" y1="42" x2="58" y2="56"/>
+    <line x1="38" y1="56" x2="54" y2="64"/>
+    <line x1="50" y1="78" x2="62" y2="72"/>
+    <line x1="60" y1="38" x2="64" y2="54"/>
+    <circle cx="55" cy="58" r="3" fill="#FF4444"/>
+  </g>
+</svg>
+      </div>
+    </button>
+  </div>
+</div>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  const toggle = document.getElementById('menuToggle');
+  const links = document.getElementById('navLinks');
+  toggle.addEventListener('click', () => {
+    const isOpen = links.classList.toggle('open');
+    toggle.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  });
+  links.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      links.classList.remove('open');
+      toggle.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  // Active section highlight in nav
+  const sections = document.querySelectorAll('#about, #work, #capabilities');
+  const navAnchors = document.querySelectorAll('.nav-links a');
+  const navMap = { about: 'About me', work: 'Projects', capabilities: 'Stack' };
+  const activeIO = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navAnchors.forEach(a => a.classList.remove('active'));
+        const targetHref = '#' + e.target.id;
+        const link = document.querySelector('.nav-links a[href="' + targetHref + '"]');
+        if (link) link.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px' });
+  sections.forEach(s => activeIO.observe(s));
+
+  // Reveal
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // Background twinkling particles
+  (function generateParticles() {
+    const container = document.getElementById('bgParticles');
+    if (!container) return;
+    const count = window.innerWidth < 600 ? 12 : 22;
+    const colors = ['#F5B83D', '#C77DFF', '#4ECDC4'];
+    for (let i = 0; i < count; i++) {
+      const p = document.createElement('div');
+      p.className = 'bg-particle';
+      const color = colors[i % 3];
+      p.style.left = Math.random() * 100 + '%';
+      p.style.top = Math.random() * 100 + '%';
+      p.style.background = color;
+      p.style.boxShadow = '0 0 6px ' + color;
+      p.style.animationDelay = (Math.random() * 4) + 's';
+      p.style.animationDuration = (3 + Math.random() * 3) + 's';
+      container.appendChild(p);
+    }
+  })();
+
+
+  // Claw'd's Ladder — optimized with rAF + cached layout
+  (function setupClaudLadder() {
+    const ladder = document.getElementById('claudLadder');
+    const rider = document.getElementById('claudRider');
+    const button = document.getElementById('claudRiderButton');
+    const markersHost = document.getElementById('ladderMarkers');
+    if (!ladder || !rider) return;
+
+    // ----- Cached layout values (refreshed on resize, never read in hot paths) -----
+    let _maxScroll = 1;
+    let _travel = 1;
+    let _ladderH = 0;
+    let _riderH = 0;
+    let _contactTop = Infinity;
+    let _viewportH = window.innerHeight;
+
+    function refreshCache() {
+      _viewportH = window.innerHeight;
+      _ladderH = ladder.clientHeight;
+      _riderH = rider.offsetHeight;
+      _travel = Math.max(1, _ladderH - _riderH);
+      _maxScroll = Math.max(1, document.documentElement.scrollHeight - _viewportH);
+      const contact = document.getElementById('contact');
+      _contactTop = contact ? contact.offsetTop : Infinity;
+    }
+
+    // ----- Section markers -----
+    const sectionIds = ['about', 'work', 'capabilities', 'credentials', 'contact'];
+    const markers = [];
+    function buildMarkers() {
+      if (!markersHost) return;
+      markersHost.innerHTML = '';
+      markers.length = 0;
+      sectionIds.forEach(id => {
+        const sec = document.getElementById(id);
+        if (!sec) return;
+        const pct = Math.min(1, Math.max(0, sec.offsetTop / _maxScroll));
+        const dot = document.createElement('div');
+        dot.className = 'ladder-marker';
+        dot.style.top = (pct * 100) + '%';
+        markersHost.appendChild(dot);
+        markers.push({ el: dot, pct: pct });
+      });
+    }
+
+    // ----- State machine -----
+    let state = 'idle';
+    const VALID = ['idle', 'climbing', 'sleeping', 'annoyed'];
+    let scrollStopTimer, sleepTimer, annoyedTimer;
+    function setState(next) {
+      if (!VALID.includes(next) || next === state) return;
+      VALID.forEach(s => rider.classList.remove(s));
+      if (next !== 'idle') rider.classList.add(next);
+      state = next;
+    }
+
+    // ----- Position writer (transform only — no layout reads) -----
+    function applyPosition(scrollY) {
+      const pct = Math.min(1, Math.max(0, scrollY / _maxScroll));
+      const y = pct * _travel;
+      rider.style.transform = 'translate3d(0, ' + y + 'px, 0)';
+      for (let i = 0; i < markers.length; i++) {
+        const m = markers[i];
+        if (pct >= m.pct - 0.005) m.el.classList.add('passed');
+        else m.el.classList.remove('passed');
+      }
+    }
+
+    // ----- Diff-write hide state (no DOM mutation when value unchanged) -----
+    let _isHidden = false;
+    function applyHide(scrollY) {
+      if (_contactTop === Infinity) return;
+      const shouldHide = (_contactTop - scrollY) < (_viewportH - 60);
+      if (shouldHide === _isHidden) return;
+      _isHidden = shouldHide;
+      ladder.style.opacity = shouldHide ? '0' : '';
+      ladder.style.pointerEvents = shouldHide ? 'none' : '';
+    }
+
+    // ----- Throttled scroll handler (rAF — fires at most once per frame) -----
+    let scrollRafId = null;
+    function onScrollRaw() {
+      scrollRafId = null;
+      const scrollY = window.scrollY;
+
+      // Skip all DOM writes during drag — drag handler owns the rider transform,
+      // and we don't want hide-at-contact to cancel an active drag mid-motion
+      if (!isDragging) {
+        applyHide(scrollY);
+        applyPosition(scrollY);
+      }
+
+      if (state !== 'annoyed') setState('climbing');
+
+      clearTimeout(scrollStopTimer);
+      clearTimeout(sleepTimer);
+      scrollStopTimer = setTimeout(() => {
+        if (state === 'annoyed') return;
+        setState('idle');
+        sleepTimer = setTimeout(() => {
+          if (state === 'idle') setState('sleeping');
+        }, 4500);
+      }, 350);
+    }
+    function onScroll() {
+      if (scrollRafId === null) scrollRafId = requestAnimationFrame(onScrollRaw);
+    }
+
+    // ----- Reveal + initial setup -----
+    function reveal() {
+      refreshCache();
+      buildMarkers();
+      applyPosition(window.scrollY);
+      ladder.classList.add('shown');
+    }
+    if (document.readyState === 'complete') reveal();
+    else window.addEventListener('load', reveal);
+
+    // Refresh on resize (debounced) — re-reads scrollHeight only when layout changes
+    let resizeT;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeT);
+      resizeT = setTimeout(() => {
+        refreshCache();
+        buildMarkers();
+        applyPosition(window.scrollY);
+      }, 150);
+    }, { passive: true });
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    // Initial sleep countdown
+    sleepTimer = setTimeout(() => {
+      if (state === 'idle') setState('sleeping');
+    }, 6000);
+
+    // ============ Drag-to-scroll (optimized) ============
+    let isDragging = false;
+    let dragStartY = 0;
+    let dragStartScroll = 0;
+    let dragged = false;
+    let dragRatio = 1;
+    let activePointerId = null;
+    let pendingScrollY = null;
+    let dragRafId = null;
+    const DRAG_THRESHOLD = 4;
+
+    function triggerAnnoyed() {
+      clearTimeout(annoyedTimer);
+      clearTimeout(sleepTimer);
+      setState('annoyed');
+      annoyedTimer = setTimeout(() => {
+        setState('idle');
+        sleepTimer = setTimeout(() => {
+          if (state === 'idle') setState('sleeping');
+        }, 4500);
+      }, 2200);
+    }
+
+    function getY(e) {
+      return e.clientY !== undefined ? e.clientY : (e.touches && e.touches[0] ? e.touches[0].clientY : 0);
+    }
+
+    function flushDrag() {
+      dragRafId = null;
+      if (pendingScrollY === null) return;
+      const target = pendingScrollY;
+      pendingScrollY = null;
+      // Set rider transform DIRECTLY this frame (instant visual)
+      applyPosition(target);
+      // Force INSTANT scroll — bypass the page's CSS `scroll-behavior: smooth`
+      // which would otherwise queue conflicting animations and add lag
+      window.scrollTo({ top: target, left: 0, behavior: 'instant' });
+    }
+
+    function startDrag(e) {
+      if (isDragging) return;
+      isDragging = true;
+      dragged = false;
+      activePointerId = e.pointerId !== undefined ? e.pointerId : null;
+      dragStartY = getY(e);
+      dragStartScroll = window.scrollY;
+
+      // Refresh cache + cache drag-specific ratio once
+      refreshCache();
+      dragRatio = _maxScroll / _travel;
+
+      rider.classList.add('dragging');
+      document.documentElement.classList.add('rider-dragging');
+      window.addEventListener('pointermove', moveDrag, { passive: false });
+      window.addEventListener('pointerup', endDrag);
+      window.addEventListener('pointercancel', endDrag);
+      if (e.cancelable) e.preventDefault();
+    }
+
+    function moveDrag(e) {
+      if (!isDragging) return;
+      if (activePointerId !== null && e.pointerId !== undefined && e.pointerId !== activePointerId) return;
+
+      const y = getY(e);
+      const delta = y - dragStartY;
+      if (!dragged && Math.abs(delta) > DRAG_THRESHOLD) dragged = true;
+      if (!dragged) return;
+
+      // Batch via rAF — at most one update per animation frame
+      pendingScrollY = Math.min(_maxScroll, Math.max(0, dragStartScroll + delta * dragRatio));
+      if (dragRafId === null) dragRafId = requestAnimationFrame(flushDrag);
+      if (e.cancelable) e.preventDefault();
+    }
+
+    function endDrag(e) {
+      if (!isDragging) return;
+      if (activePointerId !== null && e.pointerId !== undefined && e.pointerId !== activePointerId) return;
+      isDragging = false;
+      activePointerId = null;
+      rider.classList.remove('dragging');
+      document.documentElement.classList.remove('rider-dragging');
+      window.removeEventListener('pointermove', moveDrag);
+      window.removeEventListener('pointerup', endDrag);
+      window.removeEventListener('pointercancel', endDrag);
+
+      // Flush any pending update before releasing
+      if (dragRafId !== null) {
+        cancelAnimationFrame(dragRafId);
+        dragRafId = null;
+        flushDrag();
+      }
+
+      if (!dragged) triggerAnnoyed();
+      setTimeout(() => { dragged = false; }, 60);
+    }
+
+    if (button) {
+      button.addEventListener('pointerdown', startDrag);
+      // Keyboard support — Enter/Space on focused button
+      button.addEventListener('click', (e) => {
+        if (e.detail !== 0) return;
+        e.preventDefault();
+        triggerAnnoyed();
+      });
+    }
+  })();
+
+
+  // Architecture modal
+  (function setupArchModal() {
+    const openBtn = document.getElementById('openArchModal');
+    const closeBtn = document.getElementById('closeArchModal');
+    const modal = document.getElementById('archModal');
+    if (!modal || !openBtn) return;
+
+    function open() {
+      modal.hidden = false;
+      // Force reflow then add open class for smooth transition
+      void modal.offsetWidth;
+      modal.classList.add('open');
+      document.body.classList.add('modal-open');
+      closeBtn.focus();
+    }
+    function close() {
+      modal.classList.remove('open');
+      document.body.classList.remove('modal-open');
+      setTimeout(() => { modal.hidden = true; }, 320);
+      openBtn.focus();
+    }
+
+    openBtn.addEventListener('click', open);
+    if (closeBtn) closeBtn.addEventListener('click', close);
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) close();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('open')) close();
+    });
+  })();
+
+</script>
+<!-- ===== AI CHAT WIDGET (Claw'd) ===== -->
+<div class="cbot" id="cbot">
+  <div class="cbot-panel" id="cbotPanel" role="dialog" aria-label="Ask Francis's AI assistant" aria-hidden="true">
+    <div class="cbot-header">
+      <div class="cbot-header-id">
+        <span class="cbot-dot" aria-hidden="true"></span>
+        <div>
+          <div class="cbot-title">Ask about Francis</div>
+          <div class="cbot-subtitle">AI ASSISTANT · USUALLY INSTANT</div>
+        </div>
+      </div>
+      <button class="cbot-close" id="cbotClose" type="button" aria-label="Close chat">✕</button>
+    </div>
+    <div class="cbot-log" id="cbotLog" aria-live="polite"></div>
+    <div class="cbot-suggest" id="cbotSuggest"></div>
+    <div class="cbot-input-row">
+      <input class="cbot-input" id="cbotInput" type="text" autocomplete="off" maxlength="500"
+             placeholder="e.g. Does he know Azure?" aria-label="Type your question" />
+      <button class="cbot-send" id="cbotSend" type="button" aria-label="Send message">↑</button>
+    </div>
+    <div class="cbot-footer">AI-generated answers. For anything official, use the contact section.</div>
+  </div>
+  <button class="cbot-launcher" id="cbotLauncher" type="button" aria-label="Open chat — ask about Francis" aria-expanded="false">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+    </svg>
+  </button>
+</div>
+<script>
+  (function setupChatbot(){
+    const container = document.getElementById('cbot');
+    const panel = document.getElementById('cbotPanel');
+    const launcher = document.getElementById('cbotLauncher');
+    const closeBtn = document.getElementById('cbotClose');
+    const log = document.getElementById('cbotLog');
+    const suggest = document.getElementById('cbotSuggest');
+    const input = document.getElementById('cbotInput');
+    const send = document.getElementById('cbotSend');
+    if (!container || !panel || !launcher) return;
+
+    const ENDPOINT = '/api/chat';
+    const SUGGESTIONS = [
+      "What does Francis do?",
+      "Tell me about the PKI project",
+      "Is he available?"
+    ];
+    const history = [];   // [{ role, content }]
+    let busy = false;
+    let greeted = false;
+
+    function scrollDown(){ log.scrollTop = log.scrollHeight; }
+
+    function addMessage(role, text){
+      const el = document.createElement('div');
+      el.className = 'cbot-msg cbot-msg--' + (role === 'user' ? 'user' : 'bot');
+      el.textContent = text;
+      log.appendChild(el);
+      scrollDown();
+      return el;
+    }
+
+    function showTyping(){
+      const el = document.createElement('div');
+      el.className = 'cbot-msg cbot-msg--bot cbot-typing';
+      el.innerHTML = '<span></span><span></span><span></span>';
+      log.appendChild(el);
+      scrollDown();
+      return el;
+    }
+
+    function renderSuggestions(){
+      suggest.innerHTML = '';
+      SUGGESTIONS.forEach(function(q){
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'cbot-chip';
+        b.textContent = q;
+        b.addEventListener('click', function(){ input.value = q; sendMessage(); });
+        suggest.appendChild(b);
+      });
+    }
+
+    function openPanel(){
+      container.classList.add('cbot--open');
+      panel.setAttribute('aria-hidden', 'false');
+      launcher.setAttribute('aria-expanded', 'true');
+      if (!greeted){
+        greeted = true;
+        addMessage('bot', "Hi! I'm Francis's assistant. Ask me about his experience, projects, stack, or whether he's available.");
+        renderSuggestions();
+      }
+      setTimeout(function(){ if (input) input.focus(); }, 90);
+    }
+
+    function closePanel(){
+      container.classList.remove('cbot--open');
+      panel.setAttribute('aria-hidden', 'true');
+      launcher.setAttribute('aria-expanded', 'false');
+      launcher.focus();
+    }
+
+    async function sendMessage(){
+      const text = (input.value || '').trim();
+      if (!text || busy) return;
+      busy = true; send.disabled = true;
+      suggest.innerHTML = '';
+      input.value = '';
+      addMessage('user', text);
+      history.push({ role: 'user', content: text });
+      const typing = showTyping();
+      try {
+        const res = await fetch(ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ messages: history })
+        });
+        let data = {};
+        try { data = await res.json(); } catch (_) {}
+        typing.remove();
+        if (!res.ok){
+          addMessage('bot', data.error || "Sorry, something went wrong. Please try again.");
+        } else {
+          const reply = data.reply || "Sorry, I didn't catch that — could you rephrase?";
+          addMessage('bot', reply);
+          history.push({ role: 'assistant', content: reply });
+        }
+      } catch (_) {
+        typing.remove();
+        addMessage('bot', "I couldn't reach the server. Please check your connection and try again.");
+      } finally {
+        busy = false; send.disabled = false;
+        if (input) input.focus();
+      }
+    }
+
+    launcher.addEventListener('click', openPanel);
+    // Clicking the name / avatar in the nav opens the assistant
+    const brand = document.querySelector('.brand');
+    if (brand) brand.addEventListener('click', function(e){ e.preventDefault(); openPanel(); });
+    closeBtn.addEventListener('click', closePanel);
+    send.addEventListener('click', sendMessage);
+    input.addEventListener('keydown', function(e){ if (e.key === 'Enter'){ e.preventDefault(); sendMessage(); } });
+    document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && container.classList.contains('cbot--open')) closePanel(); });
+  })();
+</script>
+<script>
+  (function setupCopyButtons(){
+    function flash(btn){
+      const label = btn.querySelector('.copy-btn-label');
+      const original = label ? label.textContent : null;
+      btn.classList.add('copied');
+      if (label) label.textContent = 'Copied!';
+      setTimeout(function(){
+        btn.classList.remove('copied');
+        if (label && original !== null) label.textContent = original;
+      }, 1600);
+    }
+    function fallbackCopy(text, btn){
+      try {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.setAttribute('readonly', '');
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.focus(); ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        flash(btn);
+      } catch (e) { /* clipboard unavailable */ }
+    }
+    document.querySelectorAll('.copy-btn').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        const text = btn.getAttribute('data-copy') || '';
+        if (!text) return;
+        if (navigator.clipboard && navigator.clipboard.writeText){
+          navigator.clipboard.writeText(text).then(function(){ flash(btn); }).catch(function(){ fallbackCopy(text, btn); });
+        } else {
+          fallbackCopy(text, btn);
+        }
+      });
+    });
+  })();
+</script>
+</body>
+</html>
